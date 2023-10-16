@@ -1,0 +1,197 @@
+import React, {useState} from 'react';
+import { Typography, Button, CircularProgress, Alert } from '@mui/material';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import '../styles/stripe-element.css';
+import '../styles/common.css';
+import {
+  ElementsConsumer,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from '@stripe/react-stripe-js';
+
+import ApplePay from '../assets/applePay.svg';
+import GPay from '../assets/gPay.svg';
+import PayPal from '../assets/paypal.svg';
+import { donationApi } from './redux/actions';
+
+const options = {
+    style: {
+      base: {
+        color: "#303238",
+        fontSize: "16px",
+        fontFamily: "sans-serif",
+        fontSmoothing: "antialiased",
+        "::placeholder": {
+          color: "#CFD7DF"
+        }
+      },
+      invalid: {
+        color: "#e5424d",
+        ":focus": {
+          color: "#303238"
+        }
+      },
+      placeholder: 'Custom Placeholder', 
+    }
+  };
+  
+const stripePromise = loadStripe('pk_test_7rF79g57po6HBEZMbqn1PVPw');
+
+  
+const InjectedCheckoutForm = ({handleNext, sharedData, updateSharedData}) => {
+  return (
+    <ElementsConsumer>
+      {({elements, stripe}) => (
+        <CheckoutForm elements={elements} stripe={stripe} handleNext={handleNext} sharedData={sharedData} updateSharedData={updateSharedData} />
+      )}
+    </ElementsConsumer>
+  );
+};
+
+const CheckoutForm = ({handleNext, sharedData, updateSharedData, elements, stripe}) => {
+  const [postalCode, setPostalCode] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleInputChange = (e, type) => {
+     if(type === 'postalCode') {
+      const value = e.target.value.replace(/\D/g, ''); 
+      setPostalCode(value);
+    } 
+
+}
+const confirmDonation = (apiReq) => {
+  donationApi(apiReq).then((response) => {
+    if(response.code !== "") {
+      setErrorMessage(response.code);
+      return
+    }
+    if (response && response.status === 200) {
+        setErrorMessage('')
+        handleNext();
+    }
+    if (response && response.status !== 200) {
+      setErrorMessage(response.message);
+    }
+  })
+  .catch((error) => {
+    console.error('Error fetching data:', error);
+    setErrorMessage(error.message);
+  });
+}
+
+
+const handleSubmit = async event => {
+  event.preventDefault();
+  if (!stripe || !elements) {
+    return;
+  }
+
+  const card = elements.getElement(CardNumberElement);
+  const result = await stripe.createToken(card);
+
+  if (result.error) {
+    setErrorMessage(result.error.message);
+  } 
+  else if(postalCode.trim().length === 0 || postalCode.trim().length !== 6) {
+    setErrorMessage('Your postal code is incomplete.')
+  }
+  else {
+    setErrorMessage('');
+    const apiRequest = {
+      "amount": sharedData?.donationAmount?.totalAmount,
+      "currency":sharedData?.donationAmount?.currency,
+      "description":sharedData?.donationAmount?.description,
+      "token": result.token.id,
+      "postalCode": postalCode
+    }
+  const updatedData = { ...sharedData, apiRequest };
+  updateSharedData(updatedData);
+  confirmDonation(apiRequest)
+}
+};
+  
+return (
+    <form onSubmit={handleSubmit}>
+      {errorMessage  !== ''  &&  <Alert severity="error">{errorMessage}</Alert>}
+      <div className="custom-card-element">
+        <CardNumberElement options={options} />
+        <CardExpiryElement options={options} />
+        <CardCvcElement options={options} />
+      </div>
+      <div className='apply-amount mb-40 mt-5'>
+        <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
+      </div>
+      {/* <div className='flex-space-btw'>
+        <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
+        <Typography className="normal-text mb-10">${sharedData?.donationAmount?.creditApplied || "0.00"}</Typography>
+    </div> */}
+    <div className='flex-space-btw'>
+        <Typography className="normal-text mb-10">You Give</Typography>
+        <Typography className="normal-text mb-10">${sharedData?.donationAmount?.amount || "0.00"}</Typography>
+    </div>
+    <div className='flex-space-btw mb-20'>
+        <Typography className="sub-head mb-10">TOTAL</Typography>
+        <Typography className="sub-head mb-10">${sharedData?.donationAmount?.totalAmount || "0.00"}</Typography>
+    </div>
+    <Button type='submit' className={`normal-text next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe}>
+      {!stripe ? (<><CircularProgress className='progress-color' /><span>Processing...</span></>) : <span>Next</span>}
+    </Button>
+    </form>
+);
+};
+
+
+const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
+
+const paymentMethodArray = [{
+  icon: ApplePay,
+  name: 'Pay'
+},
+{
+  icon: GPay,
+  name: 'G Pay'
+},{
+  icon: PayPal,
+  name: 'Paypal'
+}]
+const [active, setActive] = useState("");
+
+const handleClick = (event) => {
+  setActive(event.target.id);
+}
+
+
+return (
+  <div className="App">
+    <Typography className='query-head mb-20'>How would you like to pay?</Typography>
+  {/* <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay via wallet:</Typography>
+  <div className='flex-space-btw mb-20'>
+      {paymentMethodArray.map((paymentMethod, i) => (
+      <Button
+          key={i}
+          className="normal-text black-btn outlined-btn"
+          id={i}
+          onClick={handleClick}
+          value={paymentMethod.name}
+          startIcon={<img src={paymentMethod.icon} />}
+          variant='outlined'></Button>
+      ))}
+  </div> */}
+  
+  <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay with credit card</Typography>
+      <div>
+        <Elements stripe={stripePromise}>
+          <InjectedCheckoutForm  handleNext={handleNext} sharedData={sharedData} updateSharedData={updateSharedData} />
+        </Elements>
+      </div>
+    
+    </div>
+  );
+};
+
+
+
+export default PaymentMethod

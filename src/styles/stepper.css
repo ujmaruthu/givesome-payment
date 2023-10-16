@@ -1,0 +1,12 @@
+.stepper-container {
+    justify-content: center !important;
+    width: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    top: 40px;
+    z-index: 1;
+    background: transparent !important;
+}
+.stepper-container .MuiMobileStepper-dotActive {
+    background-color: #fff;
+}
