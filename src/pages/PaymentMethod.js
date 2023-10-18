@@ -54,8 +54,14 @@ const CheckoutForm = ({handleNext, sharedData, updateSharedData, elements, strip
   const [postalCode, setPostalCode] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [buttonDisabled, setButtonDisabled] = useState('');
 
   const handleInputChange = (e, type) => {
+      if(e.error && e.error.message) {
+        setErrorMessage(e.error.message)
+      } else {
+        setErrorMessage('');
+     }
      if(type === 'postalCode') {
       const value = e.target.value.replace(/\D/g, ''); 
       setPostalCode(value);
@@ -64,16 +70,18 @@ const CheckoutForm = ({handleNext, sharedData, updateSharedData, elements, strip
 }
 const confirmDonation = (apiReq) => {
   donationApi(apiReq).then((response) => {
-    if(response.code !== "") {
+    setButtonDisabled(false);
+    setErrorMessage('')
+    if(response.code && response.code  !== "") {
       setErrorMessage(response.code);
       return
     }
-    if (response && response.status === 200) {
+    if (response && response.data && response.data.status === 200) {
         setErrorMessage('')
         handleNext();
     }
-    if (response && response.status !== 200) {
-      setErrorMessage(response.message);
+    if (response && response.data && response.data.status !== 200) {
+      setErrorMessage(response.data.message);
     }
   })
   .catch((error) => {
@@ -84,18 +92,21 @@ const confirmDonation = (apiReq) => {
 
 
 const handleSubmit = async event => {
+  setButtonDisabled(true)
+
   event.preventDefault();
   if (!stripe || !elements) {
     return;
   }
-
   const card = elements.getElement(CardNumberElement);
   const result = await stripe.createToken(card);
 
   if (result.error) {
+    setButtonDisabled(false)
     setErrorMessage(result.error.message);
   } 
   else if(postalCode.trim().length === 0 || postalCode.trim().length !== 6) {
+    setButtonDisabled(false)
     setErrorMessage('Your postal code is incomplete.')
   }
   else {
@@ -117,9 +128,11 @@ return (
     <form onSubmit={handleSubmit}>
       {errorMessage  !== ''  &&  <Alert severity="error">{errorMessage}</Alert>}
       <div className="custom-card-element">
-        <CardNumberElement options={options} />
-        <CardExpiryElement options={options} />
-        <CardCvcElement options={options} />
+        <CardNumberElement 
+        onChange={(e)=> {handleInputChange(e, 'cardNo')}}
+        options={options} />
+        <CardExpiryElement options={options} onChange={(e)=> {handleInputChange(e, 'expiry')}}/>
+        <CardCvcElement options={options} onChange={(e)=> {handleInputChange(e, 'ccv')}} />
       </div>
       <div className='apply-amount mb-40 mt-5'>
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
@@ -136,8 +149,8 @@ return (
         <Typography className="sub-head mb-10">TOTAL</Typography>
         <Typography className="sub-head mb-10">${sharedData?.donationAmount?.totalAmount || "0.00"}</Typography>
     </div>
-    <Button type='submit' className={`normal-text next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe}>
-      {!stripe ? (<><CircularProgress className='progress-color' /><span>Processing...</span></>) : <span>Next</span>}
+    <Button type='submit' className={`normal-text next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe || buttonDisabled}>
+      {!stripe || buttonDisabled ? (<><CircularProgress className='progress-color' /><span style={{color:'#fff'}}>Processing...</span></>) : <span>Next</span>}
     </Button>
     </form>
 );

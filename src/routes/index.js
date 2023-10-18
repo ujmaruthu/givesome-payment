@@ -10,8 +10,8 @@ const wrapWithLayout = (comp) =>{
 const AppRoutes =  () => {
     return (
       <Routes>
-        <Route path="/" element={wrapWithLayout(<Payment/>)} />
-        <Route path="/paymemt" element={wrapWithLayout(<Payment/>)} />
+        <Route path="/payment/:id/:name" element={wrapWithLayout(<Payment/>)} />
+        {/* <Route path="/" element={wrapWithLayout(<Payment/>)} /> */}
       </Routes>
     )
 };
