@@ -4,9 +4,10 @@ import '../styles/common.css';
 import Confetti from 'react-confetti'
 import ThankyouIcon from '../assets/thankyou.svg';
 
-
 const DonationSuccess = () => {
-  
+  const moreProjectRedrection = () => {
+    window.open('https://qa.givesome.org/');
+  }
 
  
   return (
@@ -19,10 +20,10 @@ const DonationSuccess = () => {
       </div>
       <img src={ThankyouIcon} alt="Logo icon" width={340} height={340} className='mb-40' />
     </div><div className='btn-holder'>
-        <Button className="normal-text default-btn" variant='contained'>
+        <Button className="normal-text default-btn" variant='contained' onClick={moreProjectRedrection}>
           More Projects
         </Button>
-        <Button className="normal-text outlined-black-btn" variant='outlined'>
+        <Button className="normal-text outlined-black-btn" variant='outlined' onClick={moreProjectRedrection}>
           Exclusive Content
         </Button>
       </div></>

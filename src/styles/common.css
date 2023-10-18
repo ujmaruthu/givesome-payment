@@ -229,6 +229,7 @@
     left: 20px;
     top: 30px;
     z-index: 2;
+    background-color: #cccccc63 !important;
 }
 .flex-center {
     display: flex;
@@ -310,4 +311,12 @@
 .MuiOutlinedInput-notchedOutline{
     border: 1px solid #FF3535 !important;
     border-color: transparent !important;
+}
+.image-over-text {
+    position: absolute;
+    bottom: 10px;
+    padding-left: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
 }

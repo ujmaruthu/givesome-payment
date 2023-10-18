@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { Typography, Button, Select, MenuItem, Alert } from '@mui/material';
-import { useParams } from 'react-router-dom';
 import '../styles/common.css';
 import {listDataApi} from './redux/actions';
 
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
-  // let { id, name } = useParams();
 
   // useEffect(() => {
   //   const data = null;
@@ -100,7 +98,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   }
   return (
     <>
-    <Typography className='query-head mb-20'>How much would you like to Donate?</Typography>
+    <Typography className='query-head mb-40'>How much would you like to Donate?</Typography>
     {errMessage  !== ''  &&  <Alert className='mb-20' severity="error">{errMessage}</Alert>}
 
     <Typography className="sub-head mb-10">Specify amount:</Typography>

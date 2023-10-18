@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, IconButton } from '@mui/material';
+import { Grid, IconButton,  Box, Typography } from '@mui/material';
 import AutoPlaySwipeableCarousel from '../components/AutoPlaySwipeableCarousel';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -38,8 +38,15 @@ const carouselImages = [
 ];
 
 const Payment = () => {
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+  const name = urlParams.get('name');
+  const sub_name = urlParams.get('sub_name');
+  const image = urlParams.get('image');
+
   const [currentStep, setCurrentStep] = useState(0);
-  const [sharedData, setSharedData] = useState({});
+  const [sharedData, setSharedData] = useState({"projectId": id});
 
   const updateSharedData = (data) => {
     setSharedData(data);
@@ -65,7 +72,27 @@ const Payment = () => {
                 </IconButton>
               )}
               {currentStep !== 2 && (
-                <AutoPlaySwipeableCarousel images={carouselImages} />
+                // <AutoPlaySwipeableCarousel images={carouselImages} />
+                <div style={{position: 'relative', paddingBottom: 5}}>
+                  <><Box
+                    component="img"
+                    sx={{
+                      height: 255,
+                      display: 'block',
+                      maxWidth: 500,
+                      overflow: 'hidden',
+                      width: '100%',
+                      borderRadius: '5px !important',
+                      // border: '1px solid #ccc'
+                    }}
+                    src={"https://qa.givesome.org/"+image}
+                    alt="Project image" />
+                    <div className='image-over-text'>
+                      <Typography className='query-head mb-10' style={{color: "#fff", position: 'absolute', bottom: 40}}>{name}</Typography>
+                      <Typography className="normal-text-head mb-10" style={{color: "#fff", position: 'absolute', bottom: 5}}>{sub_name}</Typography>
+                    </div></>
+              </div>
+
               )}
             </div>
             <CardContent>

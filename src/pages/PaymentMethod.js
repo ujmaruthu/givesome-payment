@@ -116,7 +116,8 @@ const handleSubmit = async event => {
       "currency":sharedData?.donationAmount?.currency,
       "description":sharedData?.donationAmount?.description,
       "token": result.token.id,
-      "postalCode": postalCode
+      "postalCode": postalCode,
+      "projectId": sharedData?.projectId
     }
   const updatedData = { ...sharedData, apiRequest };
   updateSharedData(updatedData);
@@ -178,8 +179,8 @@ const handleClick = (event) => {
 
 
 return (
-  <div className="App">
-    <Typography className='query-head mb-20'>How would you like to pay?</Typography>
+  <div>
+    <Typography className='query-head mb-40'>How would you like to pay?</Typography>
   {/* <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay via wallet:</Typography>
   <div className='flex-space-btw mb-20'>
       {paymentMethodArray.map((paymentMethod, i) => (
