@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Typography, Button, Select, MenuItem, Alert } from '@mui/material';
 import '../styles/common.css';
 import {listDataApi} from './redux/actions';
+import { TypeSpecimenOutlined } from '@mui/icons-material';
 
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
@@ -30,7 +31,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const[errorMessage, setErrorMessage] = useState('');
   const[errMessage, setErrMessage] = useState('');
 
-  const [currency, setCurrency] = useState(sharedData?.donationAmount?.currency  || '');
+  const [currency, setCurrency] = useState(sharedData?.donationAmount?.currency  || 'cad');
   const [currencyError, setCurrencyError] = useState('');
 
   const handleChange = (e) => {
@@ -100,23 +101,37 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
     <>
     <Typography className='query-head mb-40'>How much would you like to Donate?</Typography>
     {errMessage  !== ''  &&  <Alert className='mb-20' severity="error">{errMessage}</Alert>}
-
+      <div style={{textAlign: 'right'}}>
+        <Select
+          value={currency}
+          onChange={(e) => { handleChange(e) }}
+          displayEmpty
+          renderValue={(selected) => (
+            <div style={{fontSize: 12, textTransform: 'uppercase'}}>
+              <b>{selected}</b>
+            </div>
+          )}
+          className={`amount-input ${currencyError !== '' ? "select-input-error" : "select-input"}`}
+        >
+          <MenuItem value={"usd"}>
+            <div>
+              <b style={{marginRight: 10}}>USD</b>
+              <span style={{ color: '#ccc' }}>US Dollar</span>
+            </div>
+          </MenuItem>
+          <MenuItem value={"cad"}>
+            <div>
+              <b style={{marginRight: 10}}>CAD</b>
+              <span style={{ color: '#ccc' }}>Canadian Dollar</span>
+            </div>
+          </MenuItem>
+        </Select>
+      </div> 
     <Typography className="sub-head mb-10">Specify amount:</Typography>
+   
     <Typography className="error-message1 mb-10">{currencyError}</Typography>
     <div className='flex-space-btw mb-10'>
-      <Select
-          value={currency}
-          onChange={(e)=> {handleChange(e)}}
-          defaultValue='usd'
-          displayEmpty
-          className={`amount-input  ${currencyError !== '' ? "select-input-error" : "select-input"}`}
-        >
-          <MenuItem value="">
-            <em>Select</em>
-          </MenuItem>
-          <MenuItem value={"usd"}>USD</MenuItem>
-          <MenuItem value={"cad"}>CAD</MenuItem>
-        </Select>
+      
         {amountArray.map((amount, i) => (
         <Button
             key={i}
@@ -158,11 +173,12 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
     </div>
     <div className='flex-space-btw mb-20'>
         <Typography className="sub-head mb-10">TOTAL</Typography>
-        <Typography className="sub-head mb-10">${totalAmount ? totalAmount : '0.00'}</Typography>
+        <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{currency} ${totalAmount ? totalAmount : '0.00'}</Typography>
     </div>
     <Button className="normal-text next-btn" variant='contained' onClick={onDonationNext}>
         Next
     </Button>
+    <Typography className='normal-text mb-10 mt-20 flex-center'>Donation processed by See the Good Foundation</Typography>
     </>
   );
 }
