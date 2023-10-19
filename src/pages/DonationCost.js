@@ -127,7 +127,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
           </MenuItem>
         </Select>
       </div> 
-    <Typography className="sub-head mb-10">Specify amount:</Typography>
+    <Typography className="sub-head mb-10" style={{marginTop: '-15px'}}>Specify amount:</Typography>
    
     <Typography className="error-message1 mb-10">{currencyError}</Typography>
     <div className='flex-space-btw mb-10'>

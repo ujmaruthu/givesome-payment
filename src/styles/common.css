@@ -105,7 +105,7 @@
 }
 .normal-btn {
     border: 1px solid rgba(17, 17, 17, 0.5) !important;
-    color: rgba(17, 17, 17, 0.5) !important;
+    color: #000 !important;
     background: #fff !important;
 }
 .black-btn {
