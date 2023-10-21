@@ -79,8 +79,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         // setErrorMessage('Please chooose/enter the amount')
         setErrMessage('Please chooose/enter the amount')
         isValid = true;
-      } else if (amount <= 0) {
-        setErrMessage('Please enter the valid amount');
+      } else if (amount <= 0.4) {
+        setErrMessage('Please enter a donation amount greater than $0.5.');
         isValid = true;
       }
     if(isValid) {

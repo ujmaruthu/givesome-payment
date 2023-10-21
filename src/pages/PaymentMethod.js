@@ -117,7 +117,8 @@ const handleSubmit = async event => {
       "description":sharedData?.donationAmount?.description,
       "token": result.token.id,
       "postalCode": postalCode,
-      "projectId": sharedData?.projectId
+      "projectId": sharedData?.projectId,
+      "supplierId": sharedData?.supplier_id || ""
     }
   const updatedData = { ...sharedData, apiRequest };
   updateSharedData(updatedData);

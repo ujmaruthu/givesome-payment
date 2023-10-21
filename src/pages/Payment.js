@@ -44,9 +44,10 @@ const Payment = () => {
   const name = urlParams.get('name');
   const sub_name = urlParams.get('sub_name');
   const image = urlParams.get('image');
+  const supplier_id = urlParams.get('supplier_id');
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [sharedData, setSharedData] = useState({"projectId": id});
+  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": supplier_id});
 
   const updateSharedData = (data) => {
     setSharedData(data);
