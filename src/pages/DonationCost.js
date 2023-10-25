@@ -116,16 +116,16 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
           )}
           className={`amount-input ${currencyError !== '' ? "select-input-error" : "select-input"}`}
         >
-          <MenuItem value={"usd"}>
-            <div>
-              <b style={{marginRight: 10}}>USD</b>
-              <span style={{ color: '#ccc' }}>US Dollar</span>
-            </div>
-          </MenuItem>
           <MenuItem value={"cad"}>
             <div>
               <b style={{marginRight: 10}}>CAD</b>
               <span style={{ color: '#ccc' }}>Canadian Dollar</span>
+            </div>
+          </MenuItem>
+          <MenuItem value={"usd"}>
+            <div>
+              <b style={{marginRight: 10}}>USD</b>
+              <span style={{ color: '#ccc' }}>US Dollar</span>
             </div>
           </MenuItem>
         </Select>
@@ -166,13 +166,13 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         </Button>
     </div> */}
 
-    {/* <div className='flex-space-btw mt-10'>
-        <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
-        <Typography className="normal-text mb-10">${creditApplied ? creditApplied : "0.00"}</Typography>
-    </div> */}
     <div className='flex-space-btw mt-10'>
+        <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
+        <Typography className="normal-text">${creditApplied ? creditApplied : "0.00"}</Typography>
+    </div>
+    <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">You Give</Typography>
-        <Typography className="normal-text mb-10">${amount ? amount : "0.00"}</Typography>
+        <Typography className="normal-text mb-10">${totalAmount - creditApplied || "0.00"}</Typography>
     </div>
     <div className='flex-space-btw mb-20'>
         <Typography className="sub-head mb-10">TOTAL</Typography>

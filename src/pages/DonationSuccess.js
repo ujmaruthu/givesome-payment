@@ -6,6 +6,7 @@ import ThankyouIcon from '../assets/thankyou.svg';
 
 const DonationSuccess = () => {
   const moreProjectRedrection = () => {
+    window.close();
     window.open('https://qa.givesome.org/');
   }
 

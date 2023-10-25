@@ -139,17 +139,17 @@ return (
       <div className='apply-amount mb-40 mt-5'>
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
       </div>
-      {/* <div className='flex-space-btw'>
+      <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
         <Typography className="normal-text mb-10">${sharedData?.donationAmount?.creditApplied || "0.00"}</Typography>
-    </div> */}
+    </div>
     <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">You Give</Typography>
-        <Typography className="normal-text mb-10">${sharedData?.donationAmount?.amount || "0.00"}</Typography>
+        <Typography className="normal-text mb-10">${sharedData?.donationAmount?.totalAmount - sharedData?.donationAmount?.creditApplied  || "0.00"}</Typography>
     </div>
     <div className='flex-space-btw mb-20'>
         <Typography className="sub-head mb-10">TOTAL</Typography>
-        <Typography className="sub-head mb-10">${sharedData?.donationAmount?.totalAmount || "0.00"}</Typography>
+        <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{sharedData?.donationAmount?.currency} ${sharedData?.donationAmount?.totalAmount || "0.00"}</Typography>
     </div>
     <Button type='submit' className={`normal-text next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe || buttonDisabled}>
       {!stripe || buttonDisabled ? (<><CircularProgress className='progress-color' /><span style={{color:'#fff'}}>Processing...</span></>) : <span>Confirm Donation</span>}

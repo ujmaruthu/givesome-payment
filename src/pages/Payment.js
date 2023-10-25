@@ -9,7 +9,7 @@ import DonationSuccess from './DonationSuccess';
 import AccountSignUp from './AccountSignUp';
 import EmailCreateAccount from './EmailCreateAccount';
 import BackIcon from '../assets/backIcon.svg';
-
+import CloseIcon from '../assets/close.svg';
 const carouselImages = [
     {
       label: 'Help Sponsor an Autism Service Dog at NSD',
@@ -61,6 +61,11 @@ const Payment = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
+  const handleClose = () => {
+    window.close();
+    window.open('https://qa.givesome.org/');
+  };
+
   return (
     <div>
       <Grid container spacing={2}>
@@ -72,6 +77,9 @@ const Payment = () => {
                   <img src={BackIcon} alt="back icon" />
                 </IconButton>
               )}
+              <IconButton aria-label="back button" className="close-btn" onClick={handleClose}>
+                  <img src={CloseIcon} alt="back icon" />
+                </IconButton>
               {currentStep !== 2 && (
                 // <AutoPlaySwipeableCarousel images={carouselImages} />
                 <div style={{position: 'relative', paddingBottom: 5}}>
