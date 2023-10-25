@@ -47,13 +47,13 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
     setTotalAmount(Number(event.target.value)+Number(creditApplied));
   }
   const onChangeAmount = (e) => {
-
     let sanitizedValue = e.target.value.replace(/[^\d.]+/, '');
     const dotCount = sanitizedValue.split('.').length - 1;
     if (dotCount > 1) {
       sanitizedValue = sanitizedValue.substring(0, sanitizedValue.lastIndexOf('.'));
     }
     setAmount(sanitizedValue);
+    setActive('')
     setTotalAmount(Number(e.target.value)+Number(creditApplied));
     if(e.target.value.trim().length !== '') {
       setErrorMessage('')
