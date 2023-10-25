@@ -24,7 +24,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const amountArray = [10, 50, 100];
   const [rewardCode, setRewardCode] = useState('');
 
-  const [active, setActive] = useState(-1);
+
+  const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [creditApplied, setCreditApplied] = useState(0.00);
   const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || 0);
@@ -41,8 +42,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
 
   const handleClick = (event) => {
     setErrorMessage('')
-    setActive(event.target.id);
-    setAmount(event.target.value);
+    setActive(event.target.value);
+    setAmount('');
     setTotalAmount(Number(event.target.value)+Number(creditApplied));
   }
   const onChangeAmount = (e) => {
@@ -71,15 +72,16 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
  
   const onDonationNext = () => {
       let isValid = false;
-      if(currency === '') {
-        // setCurrencyError('Please select your currency');
-        setErrMessage('Please select your currency')
-        isValid = true;
-      }else  if((!amount) || (amount?.trim().length === 0)){
+      // if(currency === '') {
+      //   // setCurrencyError('Please select your currency');
+      //   setErrMessage('Please select your currency')
+      //   isValid = true;
+      // }else
+        if(totalAmount === 0){
         // setErrorMessage('Please chooose/enter the amount')
         setErrMessage('Please chooose/enter the amount')
         isValid = true;
-      } else if (amount <= 0.4) {
+      } else if (totalAmount <= 0.4) {
         setErrMessage('Please enter a donation amount greater than $0.5.');
         isValid = true;
       }
@@ -91,7 +93,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
       "currency": currency,
       "description": "Payment For Givesome Donation",
       "totalAmount": totalAmount,
-      "creditApplied": creditApplied
+      "creditApplied": creditApplied,
+      "btnAmount": Number(active)
      }
     const updatedData = { ...sharedData, donationAmount };
     updateSharedData(updatedData);
@@ -135,8 +138,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         {amountArray.map((amount, i) => (
         <Button
             key={i}
-            className={`normal-text outlined-btn ${active == i ? "active-btn" : "normal-btn"}`}
-            id={i}
+            className={`normal-text outlined-btn ${active == amount ? "active-btn" : "normal-btn"}`}
+            id={amount}
             onClick={handleClick}
             value={amount}
             variant='outlined'>${amount}</Button>
