@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Typography, Button, CircularProgress, Alert } from '@mui/material';
+import { Typography, Button, CircularProgress, Alert, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import '../styles/stripe-element.css';
@@ -113,12 +113,16 @@ const handleSubmit = async event => {
     setErrorMessage('');
     const apiRequest = {
       "amount": sharedData?.donationAmount?.totalAmount,
-      "currency":sharedData?.donationAmount?.currency,
-      "description":sharedData?.donationAmount?.description,
+      "youGive":sharedData?.donationAmount?.youGive,
+      "givecardAmount":sharedData?.rewardApplied?.creditApplied,
+      "currency": sharedData?.donationAmount?.currency,
+      "description": sharedData?.donationAmount?.description+' ( to '+sharedData.projectName+')',
       "token": result.token.id,
       "postalCode": postalCode,
       "projectId": sharedData?.projectId,
-      "supplierId": sharedData?.supplier_id || ""
+      "supplierId": sharedData?.supplier_id || "",
+      "givecardCode": sharedData?.rewardApplied?.rewardCode?.toUpperCase() || "",
+      "userId":sharedData?.userId || null,
     }
   const updatedData = { ...sharedData, apiRequest };
   updateSharedData(updatedData);
@@ -136,21 +140,25 @@ return (
         <CardExpiryElement options={options} onChange={(e)=> {handleInputChange(e, 'expiry')}}/>
         <CardCvcElement options={options} onChange={(e)=> {handleInputChange(e, 'ccv')}} />
       </div>
-      <div className='apply-amount mb-40 mt-5'>
+      <div className='apply-amount mb-20 mt-5'>
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
       </div>
+      <FormGroup className='input-checkbox'>
+        <FormControlLabel className='receipt-label mb-40 mt-20' control={<Checkbox defaultChecked />} label="I would like my donation to remain anonymous" />
+    </FormGroup>
       <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
-        <Typography className="normal-text mb-10">${sharedData?.donationAmount?.creditApplied || "0.00"}</Typography>
+        <Typography className="normal-text mb-10">{sharedData?.donationAmount?.currencySymbol}{sharedData?.donationAmount?.creditApplied || "0.00"}</Typography>
     </div>
     <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">You Give</Typography>
-        <Typography className="normal-text mb-10">${sharedData?.donationAmount?.totalAmount - sharedData?.donationAmount?.creditApplied  || "0.00"}</Typography>
+        <Typography className="normal-text mb-10">{sharedData?.donationAmount?.currencySymbol}{sharedData?.donationAmount?.youGive  || "0.00"}</Typography>
     </div>
     <div className='flex-space-btw mb-20'>
         <Typography className="sub-head mb-10">TOTAL</Typography>
-        <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{sharedData?.donationAmount?.currency} ${sharedData?.donationAmount?.totalAmount || "0.00"}</Typography>
+        <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{sharedData?.donationAmount?.currency} {sharedData?.donationAmount?.currencySymbol}{sharedData?.donationAmount?.totalAmount || "0.00"}</Typography>
     </div>
+    
     <Button type='submit' className={`normal-text next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe || buttonDisabled}>
       {!stripe || buttonDisabled ? (<><CircularProgress className='progress-color' /><span style={{color:'#fff'}}>Processing...</span></>) : <span>Confirm Donation</span>}
     </Button>

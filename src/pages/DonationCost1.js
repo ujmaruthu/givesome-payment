@@ -1,71 +1,87 @@
 import React, {useState, useEffect} from 'react';
 import { Typography, Button, Select, MenuItem, Alert } from '@mui/material';
 import '../styles/common.css';
-import { getCurrencyList, getIpBasedCurrency } from './redux/actions';
+import {getCurrencyList, getIpBasedCurrency, listDataApi} from './redux/actions';
+
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
+  console.log(sharedData, 'sharedDatasharedData')
+  console.log(updateSharedData, 'updateSharedData')
+  console.log(sharedData, 'sharedDatasharedData')
+
   const amountArray = [2, 5, 10];
 
   const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || null);
   const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied || 0.00);
-  const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || (sharedData?.rewardApplied?.creditApplied + sharedData?.donationAmount?.youGive) || 0);
+  const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || 0);
+  const [currencyList, setCurrencyList] = useState([]);
   const [countryCode, setCountryCode] = useState('')
   const[errorMessage, setErrorMessage] = useState('');
   const[errMessage, setErrMessage] = useState('');
 
-  const [ipBasedCurrency, setIpBasedCurrency] = useState([]);
-  const [currencyList, setCurrencyList] = useState([]);
-
-
-  useEffect(() => {
-    getIpBasedCurrency().then((response) => {
-        if(response.code && response.code  !== "") {
-          return
-        }
-        if (response && response.status === 200) {
-            setIpBasedCurrency(response.data.currency)
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setErrorMessage(error.message);
-      });
-
-      getCurrencyList().then((response) => {
-        if(response.code && response.code  !== "") {
-          return
-        }
-        if (response && response.status === 200) {
-          setCurrencyList(response.data.data)
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setErrorMessage(error.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (ipBasedCurrency?.length > 0 && currencyList?.length > 0) {
-        setCurrencyList(currencyList)
-        setCountryCode(sharedData?.donationAmount?.currency || ipBasedCurrency)
-        setCurrency(sharedData?.donationAmount?.currency || ipBasedCurrency);
-        setCurrencySymbol(sharedData?.donationAmount?.currency ? getCurrencySymbol(sharedData?.donationAmount?.currency) : getCurrencySymbol(countryCode))
-    }
-  }, [ipBasedCurrency, currencyList]);
-
-
-  const getCurrencySymbol = (currencyCode) => {
-    const currency = currencyList?.find((item) => item.currencyCode === currencyCode);
-    return currency ? currency.currencySymbol : '';
-  };
-
   const [currency, setCurrency] = useState(sharedData?.donationAmount?.currency ? sharedData?.donationAmount?.currency : countryCode);
-  const [currencySymbol, setCurrencySymbol] = useState(sharedData?.donationAmount?.currencySymbol);
+  const [currencySymbol, setCurrencySymbol] = useState(sharedData?.donationAmount?.currencySymbol || currencyList?.filter((obj) => obj?.currencyCode === countryCode)[0]?.currencySymbol );
   const [currencyError, setCurrencyError] = useState('');
 
+  useEffect(()=> {
+    getcurrencyArray();
+    getIpBasedCurrencyDefault();
+  },[])
+ 
+  const getIpBasedCurrencyDefault = () => {
+    getIpBasedCurrency().then((response) => {
+      console.log(response, 'response')
+      if(response.code && response.code  !== "") {
+        return
+      }
+      if (response && response.status === 200) {
+        setCountryCode(response.data.currency)
+        setCurrencySymbol(getCurrencySymbol(countryCode))
+        console.log(response.data.currency, '----------')
+        console.log(currencyList, '----------')
+        console.log(getCurrencySymbol(countryCode), '----------')
+        console.log(getCurrencySymbol(countryCode), '----------')
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+      setErrorMessage(error.message);
+    });
+  }
+  const getcurrencyArray = () => {
+    getCurrencyList().then((response) => {
+      console.log(response, 'response')
+      if(response.code && response.code  !== "") {
+        return
+      }
+      if (response && response.status === 200) {
+        setCurrencyList(response.data)
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+      setErrorMessage(error.message);
+    });
+  }
+
+  useEffect(()=>{
+    if(sharedData?.donationAmount?.currency) {
+      setCurrency(sharedData?.donationAmount?.currency)
+    } else {
+      if(currencyList?.length !== 0 && countryCode) {
+        const filteredArray = currencyList?.filter((obj) => obj?.currencyCode === countryCode)[0]
+        setCurrency(filteredArray.currencyCode)
+      }
+    }
+  },[currencyList, countryCode, sharedData?.donationAmount?.currency])
+
+  const getCurrencySymbol = (currencyCode) => {
+    const currency = currencyList.find((item) => item.currencyCode === currencyCode);
+    return currency ? currency.currencySymbol : '';
+  };
+  console.log(currencySymbol)
   useEffect(()=>{
     
     if(sharedData?.donationAmount?.currencySymbol) {
@@ -76,6 +92,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   },[currencyList, countryCode, sharedData?.donationAmount?.currencySymbol])
 
   const handleChange = (e) => {
+    console.log(currencyList, 'e.target')
     setCurrency(e.target.value);
     const filteredArray = currencyList?.filter((obj) => obj?.currencyCode === e.target.value)[0]
     setCurrencySymbol(filteredArray.currencySymbol)

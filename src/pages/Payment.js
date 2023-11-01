@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, IconButton,  Box, Typography } from '@mui/material';
-import AutoPlaySwipeableCarousel from '../components/AutoPlaySwipeableCarousel';
+// import AutoPlaySwipeableCarousel from '../components/AutoPlaySwipeableCarousel';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import ApplyGivecard from './ApplyGivecard';
 import DonationCost from './DonationCost';
 import PaymentMethod from './PaymentMethod';
 import DonationSuccess from './DonationSuccess';
@@ -10,44 +11,45 @@ import AccountSignUp from './AccountSignUp';
 import EmailCreateAccount from './EmailCreateAccount';
 import BackIcon from '../assets/backIcon.svg';
 import CloseIcon from '../assets/close.svg';
-const carouselImages = [
-    {
-      label: 'Help Sponsor an Autism Service Dog at NSD',
-      subLabel: 'By National Service Dogs',
-      imgPath:
-        'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-    {
-      label: 'Help Sponsor an Autism Service Dog at NSD2',
-      subLabel: 'By National Service Dogs',
-      imgPath:
-        'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-    {
-      label: 'Help Sponsor an Autism Service Dog at NSD3',
-      subLabel: 'By National Service Dogs',
-      imgPath:
-        'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-    },
-    {
-      label: 'Help Sponsor an Autism Service Dog at NSD4',
-      subLabel: 'By National Service Dogs',
-      imgPath:
-        'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-];
+// const carouselImages = [
+//     {
+//       label: 'Help Sponsor an Autism Service Dog at NSD',
+//       subLabel: 'By National Service Dogs',
+//       imgPath:
+//         'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+//     },
+//     {
+//       label: 'Help Sponsor an Autism Service Dog at NSD2',
+//       subLabel: 'By National Service Dogs',
+//       imgPath:
+//         'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+//     },
+//     {
+//       label: 'Help Sponsor an Autism Service Dog at NSD3',
+//       subLabel: 'By National Service Dogs',
+//       imgPath:
+//         'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
+//     },
+//     {
+//       label: 'Help Sponsor an Autism Service Dog at NSD4',
+//       subLabel: 'By National Service Dogs',
+//       imgPath:
+//         'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+//     },
+// ];
 
 const Payment = () => {
 
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get('id');
-  const name = urlParams.get('name');
-  const sub_name = urlParams.get('sub_name');
-  const image = urlParams.get('image');
-  const supplier_id = urlParams.get('supplier_id');
+  const id = urlParams.get('dataOne');
+  const name = urlParams.get('dataThree');
+  const sub_name = urlParams.get('dataFour');
+  const image = urlParams.get('dataFive');
+  const supplier_id = urlParams.get('dataTwo');
+  const userId = urlParams.get('dataSix');
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": supplier_id});
+  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": supplier_id, "projectName": name, userId: userId});
 
   const updateSharedData = (data) => {
     setSharedData(data);
@@ -72,15 +74,15 @@ const Payment = () => {
         <Grid item xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
           <Card variant="outlined" sx={{ width: 500 }}>
             <div style={{ position: 'relative' }}>
-              {currentStep > 0 &&  currentStep < 2 && (
+              {(currentStep > 0 &&  (currentStep < (userId !== "" ? 3 : 5))) && (
                 <IconButton aria-label="back button" className="back-btn" onClick={handleBack}>
                   <img src={BackIcon} alt="back icon" />
                 </IconButton>
               )}
-              <IconButton aria-label="back button" className="close-btn" onClick={handleClose}>
-                  <img src={CloseIcon} alt="back icon" />
+               <IconButton aria-label="close button" className="close-btn" onClick={handleClose}>
+                  <img src={CloseIcon} alt="close icon" />
                 </IconButton>
-              {currentStep !== 2 && (
+              {(currentStep !== (userId !== "" ? 3 : 5)) && (
                 // <AutoPlaySwipeableCarousel images={carouselImages} />
                 <div style={{position: 'relative', paddingBottom: 5}}>
                   <><Box
@@ -101,15 +103,26 @@ const Payment = () => {
                       <Typography className="normal-text-head mb-10" style={{color: "#fff", position: 'absolute', bottom: 5}}>{sub_name}</Typography>
                     </div></>
               </div>
-
               )}
             </div>
-            <CardContent>
-              {currentStep === 0 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
-              {currentStep === 1 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
-              {/* {currentStep === 2 && <AccountSignUp handleNext={handleNext} />} */}
-              {/* {currentStep === 3 && <EmailCreateAccount handleNext={handleNext} />} */}
-              {currentStep === 2 && <DonationSuccess handleNext={handleNext}/>}
+            <CardContent style={{padding: "16px 25px"}}>
+              {userId !== "" ? (
+                <>
+                  {currentStep === 0 && <ApplyGivecard sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
+                  {currentStep === 1 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
+                  {currentStep === 2 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
+                  {currentStep === 3 && <DonationSuccess handleNext={handleNext}/>}       
+                </> 
+              ) : (
+                <>
+                  {currentStep === 0 && <AccountSignUp handleNext={handleNext} />}
+                  {currentStep === 1 && <EmailCreateAccount handleNext={handleNext} />}
+                  {currentStep === 2 && <ApplyGivecard sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
+                  {currentStep === 3 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
+                  {currentStep === 4 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
+                  {currentStep === 5 && <DonationSuccess handleNext={handleNext}/>}       
+                </> 
+              )}
             </CardContent>
           </Card>
         </Grid>

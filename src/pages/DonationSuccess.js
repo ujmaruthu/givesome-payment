@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Typography, Button } from '@mui/material';
 import '../styles/common.css';
 import Confetti from 'react-confetti'
@@ -13,7 +13,6 @@ const DonationSuccess = () => {
  
   return (
     <><div style={{ position: 'relative', textAlign: 'center', minHeight: 400 }}>
-
       <Confetti style={{ position: 'absolute' }} />
       <div>
         <Typography className='big-head mb-20 mt-40'>Thank you! Now, see the good.</Typography>
@@ -24,8 +23,8 @@ const DonationSuccess = () => {
         <Button className="normal-text default-btn" variant='contained' onClick={moreProjectRedrection}>
           More Projects
         </Button>
-        <Button className="normal-text outlined-black-btn" variant='outlined' onClick={moreProjectRedrection}>
-          Exclusive Content
+        <Button className="normal-text outlined-black-btn" style={{textTransform: 'capitalize'}} variant='outlined' onClick={moreProjectRedrection}>
+          <b>Exclusive Content</b>
         </Button>
       </div></>
   );
