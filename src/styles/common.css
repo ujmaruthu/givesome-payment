@@ -140,6 +140,17 @@
 ::placeholder {
     color: #CFD7DF !important;
 }
+.small-input {
+    height: 46px;
+    width: 100%;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: 1px solid transparent !important;
+    outline: none;
+    font-weight: 500;
+    font-size: 14px !important;
+    text-align: right;
+}
 .input-center {
     padding-left: 35%;
 }

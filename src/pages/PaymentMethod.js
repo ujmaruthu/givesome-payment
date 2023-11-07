@@ -111,18 +111,23 @@ const handleSubmit = async event => {
   }
   else {
     setErrorMessage('');
+    const originalString = sharedData?.donationAmount?.currency;
+    const lowercaseStringCurrency = originalString.toLowerCase();
+    console.log(sharedData, 'sharedData')
     const apiRequest = {
       "amount": sharedData?.donationAmount?.totalAmount,
       "youGive":sharedData?.donationAmount?.youGive,
-      "givecardAmount":sharedData?.rewardApplied?.creditApplied,
-      "currency": sharedData?.donationAmount?.currency,
-      "description": sharedData?.donationAmount?.description+' ( to '+sharedData.projectName+')',
+      "givecardAmount":Number(sharedData?.rewardApplied?.creditApplied),
+      "givecardId":Number(sharedData?.rewardApplied?.givecardId),
+      "givacardBalance":Number(sharedData?.rewardApplied?.givacardBalance),
+      "currency": lowercaseStringCurrency,
+      "description": sharedData?.donationAmount?.description+' (to '+sharedData.projectName+')',
       "token": result.token.id,
       "postalCode": postalCode,
       "projectId": sharedData?.projectId,
       "supplierId": sharedData?.supplier_id || "",
       "givecardCode": sharedData?.rewardApplied?.rewardCode?.toUpperCase() || "",
-      "userId":sharedData?.userId || null,
+      "userId": sharedData?.userId  !== "None"  ? sharedData?.userId : null,
     }
   const updatedData = { ...sharedData, apiRequest };
   updateSharedData(updatedData);

@@ -14,16 +14,19 @@ export const donationApi = async (data) => {
     }
 }
 export const rewardApplyApi = async (data) => {
-  const endpoint = `http://34.170.249.201:8080/givesome/api/payment/givecard/${data.code  ? `${data.code}`: ''}`;
+
+  const endpoint = `http://34.170.249.201:8080/givesome/api/payment/givecard/${data.code  ? `${data.code}`: ''}/${data.userId ? `${data.userId}` : 0}`;
   try {
       const response = await axios.get(`${endpoint}`, data);
     //   const response = {
-    //    data: { "message": "GiveCard Redeem Success",
-    //    "status": 200,
-    //    "data": {
-    //        "creditApplied": 2,
-    //        "creditPercentage": 100
-    //    }}
+    //    data: {
+    //     "message": "Give card Balance",
+    //     "status": 200,
+    //     "data": {
+    //         "balance": 10,
+    //         "givecardId": 20612
+    //       }
+    //   }
     // }
       return response;
 
@@ -32,6 +35,7 @@ export const rewardApplyApi = async (data) => {
     }
 }
 export const getCurrencyList = async (data) => {
+  
   const endpoint = `http://34.170.249.201:8080/givesome/api/payment/currency/list`;
   try {
       const response = await axios.get(`${endpoint}`, data);

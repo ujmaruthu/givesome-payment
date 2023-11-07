@@ -70,19 +70,19 @@ const Payment = () => {
 
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
-          <Card variant="outlined" sx={{ width: 500 }}>
+      <Grid container spacing={2} style={{margin: 0, width: '100%'}}>
+        <Grid item xs={12} style={{ justifyContent: 'center', display: 'flex', padding:0 }}>
+          <Card variant="outlined" sx={{ width: "100%" }}>
             <div style={{ position: 'relative' }}>
-              {(currentStep > 0 &&  (currentStep < (userId !== "" ? 3 : 5))) && (
+              {currentStep > 0 &&  currentStep < 3 && (
                 <IconButton aria-label="back button" className="back-btn" onClick={handleBack}>
                   <img src={BackIcon} alt="back icon" />
                 </IconButton>
               )}
-               <IconButton aria-label="close button" className="close-btn" onClick={handleClose}>
+               {/* <IconButton aria-label="close button" className="close-btn" onClick={handleClose}>
                   <img src={CloseIcon} alt="close icon" />
-                </IconButton>
-              {(currentStep !== (userId !== "" ? 3 : 5)) && (
+                </IconButton> */}
+              {currentStep !== 3 && (
                 // <AutoPlaySwipeableCarousel images={carouselImages} />
                 <div style={{position: 'relative', paddingBottom: 5}}>
                   <><Box
@@ -106,23 +106,12 @@ const Payment = () => {
               )}
             </div>
             <CardContent style={{padding: "16px 25px"}}>
-              {userId !== "" ? (
-                <>
+                  {/* {currentStep === 0 && <AccountSignUp handleNext={handleNext} />} */}
+                  {/* {currentStep === 1 && <EmailCreateAccount handleNext={handleNext} />} */}
                   {currentStep === 0 && <ApplyGivecard sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 1 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 2 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
                   {currentStep === 3 && <DonationSuccess handleNext={handleNext}/>}       
-                </> 
-              ) : (
-                <>
-                  {currentStep === 0 && <AccountSignUp handleNext={handleNext} />}
-                  {currentStep === 1 && <EmailCreateAccount handleNext={handleNext} />}
-                  {currentStep === 2 && <ApplyGivecard sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
-                  {currentStep === 3 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
-                  {currentStep === 4 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
-                  {currentStep === 5 && <DonationSuccess handleNext={handleNext}/>}       
-                </> 
-              )}
             </CardContent>
           </Card>
         </Grid>

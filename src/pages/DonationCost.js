@@ -5,16 +5,17 @@ import { getCurrencyList, getIpBasedCurrency } from './redux/actions';
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const amountArray = [2, 5, 10];
-
+  
   const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
-  const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || null);
+  const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || 0);
   const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied || 0.00);
-  const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || (sharedData?.rewardApplied?.creditApplied + sharedData?.donationAmount?.youGive) || 0);
+  const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || (creditApplied + youGive) || 0);
   const [countryCode, setCountryCode] = useState('')
   const[errorMessage, setErrorMessage] = useState('');
   const[errMessage, setErrMessage] = useState('');
-
+  console.log(sharedData?.rewardApplied?.creditApplied)
+  console.log(youGive)
   const [ipBasedCurrency, setIpBasedCurrency] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
 
@@ -49,10 +50,18 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
 
   useEffect(() => {
     if (ipBasedCurrency?.length > 0 && currencyList?.length > 0) {
-        setCurrencyList(currencyList)
-        setCountryCode(sharedData?.donationAmount?.currency || ipBasedCurrency)
-        setCurrency(sharedData?.donationAmount?.currency || ipBasedCurrency);
-        setCurrencySymbol(sharedData?.donationAmount?.currency ? getCurrencySymbol(sharedData?.donationAmount?.currency) : getCurrencySymbol(countryCode))
+      const defaultCurrency = sharedData?.donationAmount?.currency || 'USD';
+
+      setCurrencyList(currencyList);
+
+      // For Current Use
+      setCountryCode(defaultCurrency);
+      setCurrency(defaultCurrency);
+      setCurrencySymbol(getCurrencySymbol(defaultCurrency));
+
+      // setCountryCode(sharedData?.donationAmount?.currency || ipBasedCurrency)
+      // setCurrency(sharedData?.donationAmount?.currency || ipBasedCurrency);
+      // setCurrencySymbol(sharedData?.donationAmount?.currency ? getCurrencySymbol(sharedData?.donationAmount?.currency) : getCurrencySymbol(ipBasedCurrency))
     }
   }, [ipBasedCurrency, currencyList]);
 

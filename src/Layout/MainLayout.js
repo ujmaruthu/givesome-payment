@@ -34,9 +34,9 @@ const MainLayout = props => {
         
     <ContentWrapper>
         <Grid container>
-            <Grid style={{marginTop:"20px"}} item xs={12} sm={12} xl={12} lg={12} md={12}>
+            <Grid item xs={12} sm={12} xl={12} lg={12} md={12}>
                 <div className='content-wrapper'>
-                <Content role="main" style={{marginBottom:"50px"}}>
+                <Content role="main"  style={{padding: 0, margin: 0}}>
                 {children}
                 </Content>
                 </div>
