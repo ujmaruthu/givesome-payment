@@ -28,6 +28,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
   const [givecardId, setGiveCardId] = useState(sharedData?.rewardApplied?.givecardId || null)
   const [redeemableAmount, setRedeemableAmount] = useState(sharedData?.rewardApplied?.redeemableAmount || null);
   const [campaignName, setCampaignName] = useState(null);
+  const [campaignMessage, setCampaignMessage] = useState(null);
   const [campaignImage, setCampaignImage] = useState(sharedData?.rewardApplied?.redeemableAmount || null);
   const [applyBtnDisable, setApplyBtnDisable] = useState(false);
   const [showRedeemSuccess, setShowRedeemSuccess] = useState(false);
@@ -126,6 +127,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
           setTotalAmount(response.data?.data?.balance + amount);
           setCampaignName(response.data?.data?.campaignName);
           setCampaignImage(response.data?.data?.campaignImage);
+          setCampaignMessage(response.data?.data?.campaignMessage);
       }
       if (response && response.data && response.data.status !== 200) {
         setErrorMessage(response.data.message);
@@ -209,7 +211,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
             <div className='image-div'><img src={campaignImage}/></div>
             <div style={{textAlign: 'center'}}>
               <Typography className="query-head mb-10">{campaignName} has given you {currencySymbol}{giveCardBlc ? giveCardBlc : 0}!</Typography>
-              <Typography className="normal-text mb-10">It has been added to your givecard balance</Typography>
+              <Typography className="normal-text mb-10">{campaignMessage}</Typography>
             </div>
         </div>
         <div style={{textAlign: 'center'}}>
