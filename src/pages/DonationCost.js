@@ -9,7 +9,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || 0);
-  const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied || 0.00);
+  const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied || 0);
   const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || (creditApplied + youGive) || 0);
   const [countryCode, setCountryCode] = useState('')
   const[errorMessage, setErrorMessage] = useState('');
@@ -204,15 +204,15 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
 
     <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
-        <Typography className="normal-text mb-10">{currencySymbol}{creditApplied ? creditApplied : "0.00"}</Typography>
+        <Typography className="normal-text mb-10">{currencySymbol}{creditApplied ? creditApplied : 0}</Typography>
     </div>
     <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">You Give</Typography>
-        <Typography className="normal-text mb-10">{currencySymbol}{youGive ? youGive : "0.00"}</Typography>
+        <Typography className="normal-text mb-10">{currencySymbol}{youGive ? youGive : 0}</Typography>
     </div>
     <div className='flex-space-btw mb-20'>
         <Typography className="sub-head mb-10">TOTAL</Typography>
-        <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{currency} {currencySymbol}{totalAmount ? totalAmount : '0.00'}</Typography>
+        <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{currency} {currencySymbol}{totalAmount ? totalAmount : 0}</Typography>
     </div>
     <Button className="normal-text next-btn" variant='contained' onClick={onDonationNext}>
         Next

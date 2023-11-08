@@ -49,14 +49,18 @@ const Payment = () => {
   const userId = urlParams.get('dataSix');
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": supplier_id, "projectName": name, userId: userId});
+  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": Number(supplier_id), "projectName": name, userId: userId});
 
   const updateSharedData = (data) => {
     setSharedData(data);
   };
 
-  const handleNext = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
+  const handleNext = (flag) => {
+    if(flag === 'pin-step') {
+      setCurrentStep(3); 
+    } else {
+      setCurrentStep((prevStep) => prevStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -74,6 +78,11 @@ const Payment = () => {
         <Grid item xs={12} style={{ justifyContent: 'center', display: 'flex', padding:0 }}>
           <Card variant="outlined" sx={{ width: "100%" }}>
             <div style={{ position: 'relative' }}>
+            {currentStep === 0 && (
+                <IconButton aria-label="back button" id="step1BackBtn" className="back-btn">
+                  <img src={BackIcon} alt="back icon" />
+                </IconButton>
+              )}
               {currentStep > 0 &&  currentStep < 3 && (
                 <IconButton aria-label="back button" className="back-btn" onClick={handleBack}>
                   <img src={BackIcon} alt="back icon" />
@@ -90,7 +99,6 @@ const Payment = () => {
                     sx={{
                       height: 255,
                       display: 'block',
-                      maxWidth: 500,
                       overflow: 'hidden',
                       width: '100%',
                       borderRadius: '5px !important',

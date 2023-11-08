@@ -1,20 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { Typography, Button, Alert } from '@mui/material';
+import { Typography, Button, Alert, FormControlLabel, Radio, FormControl, RadioGroup } from '@mui/material';
 import '../styles/common.css';
 import {rewardApplyApi} from './redux/actions';
 import TickIcon from '../assets/tick.svg';
-import { getCurrencyList, getIpBasedCurrency } from './redux/actions';
+import { getCurrencyList, getIpBasedCurrency, redeemGivecardApi } from './redux/actions';
 import * as formatters from '../utils/util';
 
 
 const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [radioErrorMessage, setRadioErrorMessage] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
 
-  const [rewardCode, setRewardCode] = useState('');
+  const [rewardCode, setRewardCode] = useState(sharedData?.rewardApplied?.rewardCode || '');
 
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
-  const [creditApplied, setCreditApplied] = useState(0.00);
+  const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied + sharedData?.rewardApplied?.givacardBalance || 0);
   const [currency, setCurrency] = useState(sharedData?.donationAmount?.currency  || 'cad');
   const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || 0);
 
@@ -22,10 +24,13 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
   const [currencyList, setCurrencyList] = useState([]);
   const [countryCode, setCountryCode] = useState('')
   const [currencySymbol, setCurrencySymbol] = useState(null);
-  const [giveCardBlc, setGiveCardBlc] = useState(null);
-  const [givecardId, setGiveCardId] = useState(null)
-  const [redeemableAmount, setRedeemableAmount] = useState(null);
-
+  const [giveCardBlc, setGiveCardBlc] = useState(sharedData?.rewardApplied?.givacardBalance || null);
+  const [givecardId, setGiveCardId] = useState(sharedData?.rewardApplied?.givecardId || null)
+  const [redeemableAmount, setRedeemableAmount] = useState(sharedData?.rewardApplied?.redeemableAmount || null);
+  const [campaignName, setCampaignName] = useState(null);
+  const [campaignImage, setCampaignImage] = useState(sharedData?.rewardApplied?.redeemableAmount || null);
+  const [applyBtnDisable, setApplyBtnDisable] = useState(false);
+  const [showRedeemSuccess, setShowRedeemSuccess] = useState(false);
   useEffect(() => {
     getIpBasedCurrency().then((response) => {
         if(response.code && response.code  !== "") {
@@ -86,6 +91,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
 
   const handleApplyReward = () => {
     let isValid = false;
+    setApplyBtnDisable(true);
     if(rewardCode?.trim()?.length === 0){
       setErrorMessage('Please enter the pin')
         isValid = true;
@@ -95,13 +101,17 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
     }
     const payload = {
       "code": rewardCode?.toUpperCase(),
-      "userId":null
+      "userId": sharedData?.userId  !== "None"  ? sharedData?.userId : null,
+      "supplierId": sharedData?.supplier_id || null
     }
+    console.log(sharedData, 'sharedData')
+    console.log(payload, 'payload')
     onApplyReward(payload);
   };
  
   const onApplyReward = (apiReq) => {
     rewardApplyApi(apiReq).then((response) => {
+      setApplyBtnDisable(false)
       setErrorMessage('')
       if(response.code && response.code  !== "") {
         setErrorMessage(response.code);
@@ -112,7 +122,10 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
           setCreditApplied(response.data?.data?.balance);
           setGiveCardBlc(response.data?.data?.balance);
           setGiveCardId(response.data?.data?.givecardId);
-          setTotalAmount(response.data?.data?.balance + amount)
+          setShowRedeemSuccess(true);
+          setTotalAmount(response.data?.data?.balance + amount);
+          setCampaignName(response.data?.data?.campaignName);
+          setCampaignImage(response.data?.data?.campaignImage);
       }
       if (response && response.data && response.data.status !== 200) {
         setErrorMessage(response.data.message);
@@ -124,6 +137,12 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
     });
   }
   
+  const handleChange = (event) => {
+    event.preventDefault();
+    setSelectedValue(event.target.value);
+    setRadioErrorMessage('')
+  };
+
   const onChangeInput = (e) => {
     let val = formatters.isNumeric(e.target.value);
     if(val <= creditApplied) {
@@ -131,74 +150,161 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
       setGiveCardBlc(creditApplied - val)
     }
   }
+  const GiveNow = () => { 
+    if (!selectedValue) {
+      setRadioErrorMessage('Choose any option to proceed')
+      return
+    }
+    setShowRedeemSuccess(false)
+  }
 
   const onNextClick = () => {
     const rewardApplied = {
       "creditApplied": Number(redeemableAmount) || 0,
+      "redeemableAmount": Number(redeemableAmount) || 0,
       "rewardCode": rewardCode,
       "givecardId": givecardId,
-      "givacardBalance": giveCardBlc
+      "givacardBalance": giveCardBlc,
+      "showGiveCardBlc": true
      }
     const updatedData = { ...sharedData, rewardApplied };
     updateSharedData(updatedData);
-    handleNext();
+    if(selectedValue === 'pin') {
+      const payload = {
+        "givecardId": givecardId || null,
+        "userId": sharedData?.userId  !== "None"  ? sharedData?.userId : null,
+        "givacardBalance": giveCardBlc
+      }
+      onRedeemingGivecard(payload);
+    } else {
+      handleNext();
+    }
+  }
+  const onRedeemingGivecard = (apiReq) => {
+    redeemGivecardApi(apiReq).then((response) => {
+      setErrorMessage('')
+      if(response.code && response.code  !== "") {
+        setErrorMessage(response.code);
+        return
+      }
+      if (response && response.data && response.data.status === 200) {
+        handleNext("pin-step");
+
+      }
+      if (response && response.data && response.data.status !== 200) {
+        setErrorMessage(response.data.message);
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+      setErrorMessage(error.message);
+    });
   }
   return (
     <>
-    <Typography className='query-head mb-40'>Would you like to use a Givecard?</Typography>
-    {errorMessage  !== ''  &&  <Alert severity="error" className='mb-20'>{errorMessage}</Alert>}
-    <div className='' style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-      <Typography className="sub-head mb-10">Redeem a Givecard:</Typography>
-      {creditApplied !== 0 && ( <Typography className="sub-head mb-10" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase'}}><img src={TickIcon} style={{marginRight: 5}}/>{rewardCode} </Typography>)}
-    </div>
-    
-    {creditApplied === 0 ? (
-      <div className='apply-amount mb-40'>
-        <input className='amount-input' 
-            type="text"
-            placeholder="Enter 6 digit PIN"
-            style={{textTransform: 'uppercase'}}
-            value={rewardCode}
-            maxLength={6}
-            onChange={handleRewardChange}
-            />
-        <Button className="normal-text apply-btn"  onClick={handleApplyReward}  disabled={rewardCode?.trim() === ''} variant='contained'>
-        Apply
+    {showRedeemSuccess && (
+    <div>
+        <Typography className='big-head mb-40' style={{textAlign: 'center'}}><img width={20} height={20} src={TickIcon} style={{ marginRight: 5 }} />PIN Reeemed!</Typography>
+        <div className='flex-space-btw mt-10' style={{alignItems: 'center', justifyContent: 'center'}}>
+            <div className='image-div'><img src={campaignImage}/></div>
+            <div style={{textAlign: 'center'}}>
+              <Typography className="query-head mb-10">{campaignName} has given you {currencySymbol}{giveCardBlc ? giveCardBlc : 0}!</Typography>
+              <Typography className="normal-text mb-10">It has been added to your givecard balance</Typography>
+            </div>
+        </div>
+        <div style={{textAlign: 'center'}}>
+        {radioErrorMessage  !== ''  &&  <Alert severity="error" className='mt-20'>{radioErrorMessage}</Alert>}
+
+        <FormControl>
+          <RadioGroup
+            name="radio-buttons-group"
+            style={{flexDirection: 'row'}}
+            className='radio-givecard mt-20'
+            value={selectedValue}
+            onChange={handleChange} 
+          >
+            <FormControlLabel value="pin" control={
+            <Radio className="radio-label" sx={{
+                color: "rgba(93, 66, 148, 1) !important",
+                '&.Mui-checked': {
+                  color: 'rgba(93, 66, 148, 1) !important',
+                },
+              }}
+            />} label="Only Donate my PIN money" />
+            <FormControlLabel value="funds" control={
+            <Radio className="radio-label" sx={{
+              color: "rgba(93, 66, 148, 1) !important",
+              '&.Mui-checked': {
+                color: 'rgba(93, 66, 148, 1) !important',
+              },
+              }}
+            />} label="Top up my PIN Donation with my own funds" />
+          </RadioGroup>
+        </FormControl>
+        </div>
+        <Typography className="normal-text mb-40 mt-40" style={{textAlign: 'center'}}>Thanks for supporting our community</Typography>
+        <Button className="normal-text next-btn" variant='contained' onClick={GiveNow}>
+          Next
         </Button>
-    </div> 
-    ): (
-      <>
-      <div className='flex-space-btw mt-10'>
-        <Typography className="normal-text mb-10">Givecard balance</Typography>
-        <Typography className="normal-text mb-10">{currencySymbol}{giveCardBlc ? giveCardBlc : "0.00"}</Typography>
-      </div>
-      <div className='amount-input mb-40' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div className=''>How much of Givecard?</div>
-          <div className="normal-text">
-          <input className='small-input w-50' value={redeemableAmount} onChange={onChangeInput} style={{border: '1px solid transparent'}} placeholder='Redeemable amount' name="Redeemable amount" />
-          </div>
-        </div>
-      </>
+    </div>
     )}
-    
-    {creditApplied !== 0 ? (
-        <div className='flex-space-btw mt-10'>
-          <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
-          <Typography className="normal-text mb-10">{currencySymbol}{redeemableAmount ? redeemableAmount : "0.00"}</Typography>
+  {!showRedeemSuccess && (
+    <div>
+        <Typography className='query-head mb-40'>Would you like to use a Givecard?</Typography>
+        {errorMessage !== '' && <Alert severity="error" className='mb-20'>{errorMessage}</Alert>}
+        <div className='' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography className="sub-head mb-10">Redeem a Givecard:</Typography>
+          {creditApplied !== 0 && (<Typography className="sub-head mb-10" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase' }}><img src={TickIcon} style={{ marginRight: 5 }} />{rewardCode} </Typography>)}
         </div>
-        // <div className='flex-space-btw'>
-        //     <Typography className="normal-text mb-10">You Give</Typography>
-        //     <Typography className="normal-text mb-10">{currencySymbol}{youGive ? youGive : "0.00"}</Typography>
-        //   </div>
-        //   <div className='flex-space-btw mb-20'>
-        //     <Typography className="sub-head mb-10">TOTAL</Typography>
-        //     <Typography className="sub-head mb-10" style={{ textTransform: 'uppercase' }}>{currency}  {currencySymbol}{totalAmount ? totalAmount : '0.00'}</Typography>
-        //   </div>
-    ) : <div style={{height: 60}}></div>}
-    <Button className="normal-text next-btn" variant='contained' onClick={onNextClick}>
-        Next
-    </Button>
-    </>
+
+        {creditApplied === 0 && !sharedData?.rewardApplied?.givecardId ? (
+          <div className='apply-amount mb-40'>
+            <input className='amount-input'
+              type="text"
+              placeholder="Enter 6 digit PIN"
+              style={{ textTransform: 'uppercase' }}
+              value={rewardCode}
+              maxLength={6}
+              onChange={handleRewardChange} />
+            <Button className="normal-text apply-btn" onClick={handleApplyReward} disabled={applyBtnDisable || rewardCode?.trim() === ''} variant='contained'>
+              Apply
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div className='flex-space-btw mt-10'>
+              <Typography className="normal-text mb-10">Givecard balance</Typography>
+              <Typography className="normal-text mb-10">{currencySymbol}{giveCardBlc ? giveCardBlc : 0}</Typography>
+            </div>
+            <div className='mb-40' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div className=''>How much of Givecard?</div>
+              <div className="normal-text">
+                <input className='amount-input w-50' value={redeemableAmount} onChange={onChangeInput} style={{ textAlign: 'right' }} placeholder='Redeemable amount' name="Redeemable amount" />
+              </div>
+            </div>
+          </>
+        )}
+
+        {creditApplied !== 0 ? (
+          <div className='flex-space-btw mt-10'>
+            <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
+            <Typography className="normal-text mb-10">{currencySymbol}{redeemableAmount ? redeemableAmount : 0}</Typography>
+          </div>
+          // <div className='flex-space-btw'>
+          //     <Typography className="normal-text mb-10">You Give</Typography>
+          //     <Typography className="normal-text mb-10">{currencySymbol}{youGive ? youGive : 0}</Typography>
+          //   </div>
+          //   <div className='flex-space-btw mb-20'>
+          //     <Typography className="sub-head mb-10">TOTAL</Typography>
+          //     <Typography className="sub-head mb-10" style={{ textTransform: 'uppercase' }}>{currency}  {currencySymbol}{totalAmount ? totalAmount : 0}</Typography>
+          //   </div>
+        ) : <div style={{ height: 60 }}></div>}
+        <Button className="normal-text next-btn" variant='contained' onClick={onNextClick}>
+          {selectedValue && selectedValue === 'pin' ? "Give now" : "Next"}
+        </Button>
+      </div>
+  )}
+      </>
   );
 }
 
