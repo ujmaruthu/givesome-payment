@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Typography, Button, CircularProgress, Alert, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Typography, Button, CircularProgress, Alert } from '@mui/material';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import '../styles/stripe-element.css';
@@ -148,9 +148,6 @@ return (
       <div className='apply-amount mb-20 mt-5'>
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
       </div>
-      <FormGroup className='input-checkbox'>
-        <FormControlLabel className='receipt-label mb-40 mt-20' control={<Checkbox defaultChecked />} label="I would like my donation to remain anonymous" />
-    </FormGroup>
       <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
         <Typography className="normal-text mb-10">{sharedData?.donationAmount?.currencySymbol}{sharedData?.donationAmount?.creditApplied || 0}</Typography>

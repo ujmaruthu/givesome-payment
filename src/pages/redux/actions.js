@@ -17,18 +17,18 @@ export const rewardApplyApi = async (data) => {
 
   const endpoint = `http://34.170.249.201:8080/givesome/api/payment/givecard`;
   try {
-      // const response = await axios.post(`${endpoint}`, data);
-      const response = {
-       data: {
-        "message": "Givecard Response",
-        "status": 200,
-        "data": {
-            "balance": 2,
-            "campaignName": "Bevy",
-            "campaignImage": "https://qa.givesome.org/media/filer_public/0f/d2/0fd2c414-2175-4664-97b1-3f5ac903fcfd/bevy.png"
-        }
-    }
-    }
+      const response = await axios.post(`${endpoint}`, data);
+    //   const response = {
+    //    data: {
+    //     "message": "Givecard Response",
+    //     "status": 200,
+    //     "data": {
+    //         "balance": 2,
+    //         "campaignName": "Bevy",
+    //         "campaignImage": "https://qa.givesome.org/media/filer_public/0f/d2/0fd2c414-2175-4664-97b1-3f5ac903fcfd/bevy.png"
+    //     }
+    // }
+    // }
       return response;
 
     } catch (error) {
