@@ -6,16 +6,18 @@ import ThankyouIcon from '../assets/thankyou.svg';
 
 const DonationSuccess = () => {
   const moreProjectRedrection = () => {
-    window.close();
-    window.open('https://qa.givesome.org/');
+    window.parent.postMessage("reload", "*");
   }
 
  
   return (
-    <><div style={{ position: 'relative', textAlign: 'center', minHeight: 400 }}>
-      <Confetti style={{ position: 'absolute' }} />
+    <><div style={{ textAlign: 'center', minHeight: 400 }}>
+      <Confetti width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={200}
+        />
       <div>
-        <Typography className='big-head mb-20 mt-40'>Thank you! Now, see the good.</Typography>
+        <Typography className='big-head mb-20 mt-30'>Thank you! Now, see the good.</Typography>
         <Typography className="normal-text mb-40">Once the project is fully funded, we’ll send you <br /> video and blog updates.</Typography>
       </div>
       <img src={ThankyouIcon} alt="Logo icon" width={340} height={340} className='mb-40' />

@@ -48,6 +48,8 @@ const Payment = () => {
   const supplier_id = urlParams.get('dataTwo');
   const userId = urlParams.get('dataSix');
 
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
+
   const [currentStep, setCurrentStep] = useState(0);
   const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": Number(supplier_id), "projectName": name, userId: userId});
 
@@ -67,10 +69,15 @@ const Payment = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const handleClose = () => {
-    window.close();
-    window.open('https://qa.givesome.org/');
+  const handleBackToTab1 = () => {
+    window.location.reload();
+    window.parent.postMessage("switchToTab1", "*");
   };
+
+  const onBackButtonClick = (showButton) => {
+    setIsButtonVisible(showButton);
+  };
+
 
   return (
     <div>
@@ -78,8 +85,8 @@ const Payment = () => {
         <Grid item xs={12} style={{ justifyContent: 'center', display: 'flex', padding:0 }}>
           <Card variant="outlined" sx={{ width: "100%" }}>
             <div style={{ position: 'relative' }}>
-            {currentStep === 0 && (
-                <IconButton aria-label="back button" id="step1BackBtn" className="back-btn">
+            {currentStep === 0 && isButtonVisible  && (
+                <IconButton aria-label="back button" id="step1BackBtn" className="back-btn" onClick={handleBackToTab1}>
                   <img src={BackIcon} alt="back icon" />
                 </IconButton>
               )}
@@ -116,7 +123,7 @@ const Payment = () => {
             <CardContent style={{padding: "16px 25px"}}>
                   {/* {currentStep === 0 && <AccountSignUp handleNext={handleNext} />} */}
                   {/* {currentStep === 1 && <EmailCreateAccount handleNext={handleNext} />} */}
-                  {currentStep === 0 && <ApplyGivecard sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
+                  {currentStep === 0 && <ApplyGivecard sharedData={sharedData}  onBackButtonClick={onBackButtonClick} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 1 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 2 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
                   {currentStep === 3 && <DonationSuccess handleNext={handleNext}/>}       

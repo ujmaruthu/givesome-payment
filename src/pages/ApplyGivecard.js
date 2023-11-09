@@ -7,11 +7,12 @@ import { getCurrencyList, getIpBasedCurrency, redeemGivecardApi } from './redux/
 import * as formatters from '../utils/util';
 
 
-const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
+const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonClick }) => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [radioErrorMessage, setRadioErrorMessage] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
+  const [showBackButton, setShowBackButton] = useState(true);
 
   const [rewardCode, setRewardCode] = useState(sharedData?.rewardApplied?.rewardCode || '');
 
@@ -120,6 +121,8 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
       }
       if (response && response.data && response.data.status === 200) {
           setErrorMessage('')
+          setShowBackButton(!showBackButton);
+          onBackButtonClick(!showBackButton);
           setCreditApplied(response.data?.data?.balance);
           setGiveCardBlc(response.data?.data?.balance);
           setGiveCardId(response.data?.data?.givecardId);
@@ -209,7 +212,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData }) => {
         <Typography className='big-head mb-40' style={{textAlign: 'center'}}><img width={20} height={20} src={TickIcon} style={{ marginRight: 5 }} />PIN Reeemed!</Typography>
         <div className='flex-space-btw mt-10' style={{alignItems: 'center', justifyContent: 'center'}}>
             <div className='image-div'><img src={campaignImage}/></div>
-            <div style={{textAlign: 'center'}}>
+            <div style={{textAlign: 'center', width: "70%"}}>
               <Typography className="query-head mb-10">{campaignName} has given you {currencySymbol}{giveCardBlc ? giveCardBlc : 0}!</Typography>
               <Typography className="normal-text mb-10">{campaignMessage}</Typography>
             </div>
