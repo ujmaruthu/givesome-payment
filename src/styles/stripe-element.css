@@ -83,6 +83,7 @@
   
   .StripeElement.PaymentRequestButton {
     height: 40px;
+    width: 500px;
   }
   .custom-card-element .StripeElement:nth-child(1) {
     width: 100%;

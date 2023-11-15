@@ -64,6 +64,7 @@ const usePaymentRequest = ({ options, onPaymentMethod }) => {
 };
 
 const PaymentRequestForm = () => {
+
   const paymentRequest = usePaymentRequest({
     options: {
       country: "US",
@@ -71,10 +72,15 @@ const PaymentRequestForm = () => {
       total: {  
         label: "Demo total",
         amount: 1000
-      }
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+      paymentMethod: {
+        googlePay: true,
+      },
+  
     },
     onPaymentMethod: ({ complete, paymentMethod, ...data }) => {
-      alert(1)
       console.log("[PaymentMethod]", paymentMethod);
       console.log("[Customer Data]", data);
       complete("success");
