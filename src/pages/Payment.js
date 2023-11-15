@@ -83,7 +83,7 @@ const Payment = () => {
     <div>
       <Grid container spacing={2} style={{margin: 0, width: '100%'}}>
         <Grid item xs={12} style={{ justifyContent: 'center', display: 'flex', padding:0 }}>
-          <Card variant="outlined" sx={{ width: "100%" }}>
+          <Card variant="outlined" sx={{ width: "100%", border: 'none' }}>
             <div style={{ position: 'relative' }}>
             {currentStep === 0 && isButtonVisible  && (
                 <IconButton aria-label="back button" id="step1BackBtn" className="back-btn" onClick={handleBackToTab1}>

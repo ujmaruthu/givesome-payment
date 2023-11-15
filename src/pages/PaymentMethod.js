@@ -15,6 +15,7 @@ import ApplePay from '../assets/applePay.svg';
 import GPay from '../assets/gPay.svg';
 import PayPal from '../assets/paypal.svg';
 import { donationApi } from './redux/actions';
+import PaymentRequestForm from './PaymentRequestForm';
 
 const options = {
     style: {
@@ -150,6 +151,9 @@ return (
       </div>
       <div className='apply-amount mb-20 mt-5'>
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
+      </div>
+      <div className='payment-req'>
+        <PaymentRequestForm />
       </div>
       <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
