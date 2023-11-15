@@ -391,3 +391,7 @@
     line-height: 1.5 !important;
     font-family: 'Albert Sans', sans-serif !important;
 }
+::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+  }
+  

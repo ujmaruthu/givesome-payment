@@ -1,12 +1,22 @@
 import axios from 'axios';
 
 export const donationApi = async (data) => {
-  const endpoint = "http://34.170.249.201:8080/givesome/api/payment/create"
+  const endpoint = "https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/create"
   try {
       const response = await axios.post(`${endpoint}`, data);
-      // const response = {"message":"Payment sent Successfully","status":200,"data":{
-      //   "message":"Payment sent Successfully","status":200,
-      // }}
+      // const response = {
+      //   data: {
+      //     "message": "Payment Success",
+      //     "status": 200,
+      //     "data": {
+      //         "status": "succeeded",
+      //         "paymentId": "ch_3OCFH9HiWAUtr3KA01o9cCID",
+      //         "amount": 500,
+      //         "createdTime": "2023-11-14T05:35:03Z"
+      //     }
+      // }
+      // }
+    
       return response;
 
     } catch (error) {
@@ -15,7 +25,7 @@ export const donationApi = async (data) => {
 }
 export const rewardApplyApi = async (data) => {
 
-  const endpoint = `http://34.170.249.201:8080/givesome/api/payment/givecard`;
+  const endpoint = `https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/givecard`;
   try {
       const response = await axios.post(`${endpoint}`, data);
     //   const response = {
@@ -37,18 +47,18 @@ export const rewardApplyApi = async (data) => {
 }
 export const redeemGivecardApi = async (data) => {
 
-  const endpoint = `http://34.170.249.201:8080/givesome/api/payment/givecard/redeem`;
+  const endpoint = `https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/givecard/redeem`;
   try {
-      const response = await axios.post(`${endpoint}`, data);
-    //   const response = {
-    //    data: {
-    //     "message": "Givecard Response",
-    //     "status": 200,
-    //     "data": {
+      // const response = await axios.post(`${endpoint}`, data);
+      const response = {
+       data: {
+        "message": "Givecard Response",
+        "status": 200,
+        "data": {
             
-    //     }
-    // }
-    // }
+        }
+    }
+    }
       return response;
 
     } catch (error) {
@@ -58,7 +68,7 @@ export const redeemGivecardApi = async (data) => {
 
 export const getCurrencyList = async (data) => {
   
-  const endpoint = `http://34.170.249.201:8080/givesome/api/payment/currency/list`;
+  const endpoint = `https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/currency/list`;
   try {
       const response = await axios.get(`${endpoint}`, data);
       return response;
