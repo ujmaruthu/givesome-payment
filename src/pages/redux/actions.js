@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const donationApi = async (data) => {
-  const endpoint = "https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/create"
+  const endpoint = "https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/create";
   try {
       const response = await axios.post(`${endpoint}`, data);
       // const response = {
@@ -49,16 +49,16 @@ export const redeemGivecardApi = async (data) => {
 
   const endpoint = `https://a842-34-170-249-201.ngrok-free.app/givesome/api/payment/givecard/redeem`;
   try {
-      // const response = await axios.post(`${endpoint}`, data);
-      const response = {
-       data: {
-        "message": "Givecard Response",
-        "status": 200,
-        "data": {
+      const response = await axios.post(`${endpoint}`, data);
+    //   const response = {
+    //    data: {
+    //     "message": "Givecard Response",
+    //     "status": 200,
+    //     "data": {
             
-        }
-    }
-    }
+    //     }
+    // }
+    // }
       return response;
 
     } catch (error) {

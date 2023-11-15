@@ -51,7 +51,7 @@ const Payment = () => {
   const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": Number(supplier_id), "projectName": name, userId: userId});
+  const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": Number(supplier_id), "projectName": name, userId: userId, projectImage: image});
 
   const updateSharedData = (data) => {
     setSharedData(data);
@@ -126,7 +126,7 @@ const Payment = () => {
                   {currentStep === 0 && <ApplyGivecard sharedData={sharedData}  onBackButtonClick={onBackButtonClick} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 1 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 2 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
-                  {currentStep === 3 && <DonationSuccess handleNext={handleNext}/>}       
+                  {currentStep === 3 && <DonationSuccess sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
             </CardContent>
           </Card>
         </Grid>

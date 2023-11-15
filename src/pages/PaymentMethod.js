@@ -77,6 +77,9 @@ const confirmDonation = (apiReq) => {
       return
     }
     if (response && response.data && response.data.status === 200) {
+        const paymentSuccessData = response.data.data;
+        const updatedData = { ...sharedData, paymentSuccessData };
+        updateSharedData(updatedData);
         setErrorMessage('')
         handleNext();
     }
