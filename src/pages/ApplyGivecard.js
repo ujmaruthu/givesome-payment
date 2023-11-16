@@ -85,9 +85,9 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
   };
 
   const handleRewardChange = (e) => {
-    let val = formatters.isAlphabetic(e.target.value);
-    if(val) {
-      setRewardCode(e.target.value);
+    let inputValue = e.target.value;
+    if (/^[a-zA-Z]*$/.test(inputValue) || inputValue === '') {
+      setRewardCode(inputValue);
     }
   };
 

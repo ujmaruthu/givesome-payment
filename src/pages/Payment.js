@@ -48,7 +48,7 @@ const Payment = () => {
   const supplier_id = urlParams.get('dataTwo');
   const userId = urlParams.get('dataSix');
 
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const [isButtonVisible, setIsButtonVisible] = useState(userId !== "None" ? false : true);
 
   const [currentStep, setCurrentStep] = useState(0);
   const [sharedData, setSharedData] = useState({"projectId": id, "supplier_id": Number(supplier_id), "projectName": name, userId: userId, projectImage: image});
