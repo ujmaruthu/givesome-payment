@@ -6,10 +6,10 @@ import ThankyouIcon from '../assets/thankyou.svg';
 
 const DonationSuccess = ({ sharedData, updateSharedData }) => {
   const moreProjectRedrection = () => {
-    window.parent.postMessage({ action: 'loadUrl', url: sharedData?.paymentSuccessData?.moreProjectUrl }, "*");
+    window.parent.postMessage({ action: 'loadUrl', url: sharedData?.applyCardData?.moreProjectUrl ? sharedData?.applyCardData?.moreProjectUrl : sharedData?.paymentSuccessData?.moreProjectUrl || 'https://qa.givesome.org' }, "*");
   }
   const exclusiveContentRedrection = () => {
-    window.parent.postMessage({ action: 'loadUrl', url: sharedData?.paymentSuccessData?.exclusiveContentUrl }, "*");
+    window.parent.postMessage({ action: 'loadUrl', url: sharedData?.applyCardData?.exclusiveContentUrl ? sharedData?.applyCardData?.exclusiveContentUrl : sharedData?.paymentSuccessData?.moreProjectUrl || 'https://qa.givesome.org' }, "*");
   }
   return (
     <><div style={{ textAlign: 'center', minHeight: 400 }}>
@@ -21,13 +21,17 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
         <Typography className='big-head mb-20 mt-30'>Thank you! Now, see the good.</Typography>
         <Typography className="normal-text mb-40">Once the project is fully funded, we’ll send you <br /> video and blog updates.</Typography>
       </div>
-      <div style={{ textAlign: 'center'}}>
-        <Typography className="normal-text mb-10">Payment ID: {sharedData?.paymentSuccessData?.paymentId ? sharedData?.paymentSuccessData?.paymentId : '-' }</Typography>
-    </div>
-    <div style={{ textAlign: 'center'}}>
-        <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? sharedData?.paymentSuccessData?.createdTime : '-' }</Typography>
-    </div>
-      <img src={sharedData?.projectImage ? "https://qa.givesome.org/"+sharedData?.projectImage : ThankyouIcon} alt="Logo icon" width={340} height={300} className='mb-40' />
+      {sharedData?.applyCardData?.selectedValue !== 'pin' && (
+        <><div style={{ textAlign: 'center' }}>
+          <Typography className="normal-text mb-10">Payment ID: {sharedData?.paymentSuccessData?.paymentId ? sharedData?.paymentSuccessData?.paymentId : '-'}</Typography>
+        </div><div style={{ textAlign: 'center' }}>
+            <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? sharedData?.paymentSuccessData?.createdTime : '-'}</Typography>
+          </div></>
+        )}
+        <div class="img-container mb-40">
+          <img src={sharedData?.projectImage ? "https://qa.givesome.org/"+sharedData?.projectImage : ThankyouIcon} alt="Logo icon" />
+        </div>
+
     </div><div className='btn-holder'>
         <Button className="normal-text default-btn" variant='contained' onClick={moreProjectRedrection}>
           More Projects

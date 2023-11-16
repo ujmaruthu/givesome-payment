@@ -393,5 +393,18 @@
 }
 ::-webkit-scrollbar {
     display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */
-  }
+}
+.img-container {
+    object-fit: contain;
+    width: 340px;
+    height: 340px;
+    box-sizing: border-box;
+    margin: auto;
+} 
+
+.img-container img {
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+}
   

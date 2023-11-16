@@ -1,73 +1,22 @@
 import React, { useMemo, useState, useEffect } from "react";
 import {
   useStripe,
+  useElements,
   PaymentRequestButtonElement
 } from "@stripe/react-stripe-js";
 
-const useOptions = paymentRequest => {
-  const options = useMemo(
-    () => ({
-      paymentRequest,
-      style: {
-        paymentRequestButton: {
-          theme: "dark",
-          height: "48px",
-          type: "donate"
-        }
-      }
-    }),
-    [paymentRequest]
-  );
 
-  return options;
-};
-
-const usePaymentRequest = ({ options, onPaymentMethod }) => {
-  const stripe = useStripe();
-  const [paymentRequest, setPaymentRequest] = useState(null);
-  const [canMakePayment, setCanMakePayment] = useState(false);
-
-  useEffect(() => {
-    if (stripe && paymentRequest === null) {
-      const pr = stripe.paymentRequest(options);
-      setPaymentRequest(pr);
-    }
-  }, [stripe, options, paymentRequest]);
-
-  useEffect(() => {
-    let subscribed = true;
-    if (paymentRequest) {
-      paymentRequest.canMakePayment().then(res => {
-        if (res && subscribed) {
-          setCanMakePayment(true);
-        }
-      });
-    }
-
-    return () => {
-      subscribed = false;
-    };
-  }, [paymentRequest]);
-
-  useEffect(() => {
-    if (paymentRequest) {
-      paymentRequest.on("paymentmethod", onPaymentMethod);
-    }
-    return () => {
-      if (paymentRequest) {
-        paymentRequest.off("paymentmethod", onPaymentMethod);
-      }
-    };
-  }, [paymentRequest, onPaymentMethod]);
-
-  return canMakePayment ? paymentRequest : null;
-};
 
 const PaymentRequestForm = () => {
-
-  const paymentRequest = usePaymentRequest({
-    options: {
-      country: "US",
+  const stripe = useStripe();
+  const elements = useElements();
+  const [paymentRequest, setPaymentRequest] = useState(null);
+  useEffect(()=> {
+    if(!stripe || !elements) {
+      return;
+    }
+  const pr = stripe.paymentRequest({
+    country: "US",
       currency: "usd",
       total: {  
         label: "Demo total",
@@ -75,41 +24,66 @@ const PaymentRequestForm = () => {
       },
       requestPayerName: true,
       requestPayerEmail: true,
-      paymentMethod: {
-        googlePay: true,
-      },
-  
-    },
-    onPaymentMethod: ({ complete, paymentMethod, ...data }) => {
-      console.log("[PaymentMethod]", paymentMethod);
-      console.log("[Customer Data]", data);
-      complete("success");
+  })
+  pr.canMakePayment().then((result) => {
+    if(result) {
+      //Show btn on page
+      setPaymentRequest(pr);
     }
   });
-  const options = useOptions(paymentRequest);
-
-  if (!paymentRequest) {
-    console.log('oooo')
-    return null;
+  pr.on('paymentmethod', async (e) => {
+   // create payment intent on server
+   const {clientSecret} = await fetch('/create-payment-intent', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      paymentMethodType: 'card',
+      currency: 'usd'
+    }),
+  }).then(r => r.json());
+  
+  const {error, paymentInetnt} = await stripe.confirmCardPayment (
+    clientSecret, {
+      payment_method: e.paymentMethod.id,
+    }, {
+      handleActions: false
+    }
+  )
+  if(error) {
+    e.complete('fail');
+    return;
+  }
+  e.complete('success')
+  if(paymentInetnt.status == 'requires_action') {
+    stripe.confirmCardPayment(clientSecret);
   }
 
+  });
+  
+},  [stripe, elements])
   return (
-    <PaymentRequestButtonElement
-      className="PaymentRequestButton"
-      options={options}
-      onReady={() => {
-        console.log("PaymentRequestButton [ready]");
-      }}
-      onClick={event => {
-        console.log("PaymentRequestButton [click]", event);
-      }}
-      onBlur={() => {
-        console.log("PaymentRequestButton [blur]");
-      }}
-      onFocus={() => {
-        console.log("PaymentRequestButton [focus]");
-      }}
-    />
+    <div>
+      {paymentRequest && 
+          <PaymentRequestButtonElement
+            className="PaymentRequestButton"
+            options={{paymentRequest}}
+            onReady={() => {
+              console.log("PaymentRequestButton [ready]");
+            }}
+            onClick={event => {
+              console.log("PaymentRequestButton [click]", event);
+            }}
+            onBlur={() => {
+              console.log("PaymentRequestButton [blur]");
+            }}
+            onFocus={() => {
+              console.log("PaymentRequestButton [focus]");
+            }}
+          />
+      }
+    </div>
   );
 };
 

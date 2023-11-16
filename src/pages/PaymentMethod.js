@@ -117,7 +117,6 @@ const handleSubmit = async event => {
     setErrorMessage('');
     const originalString = sharedData?.donationAmount?.currency;
     const lowercaseStringCurrency = originalString.toLowerCase();
-    console.log(sharedData, 'sharedData')
     const apiRequest = {
       "amount": sharedData?.donationAmount?.totalAmount,
       "youGive":sharedData?.donationAmount?.youGive,

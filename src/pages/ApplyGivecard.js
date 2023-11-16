@@ -106,8 +106,6 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
       "userId": sharedData?.userId  !== "None"  ? sharedData?.userId : null,
       "supplierId": sharedData?.supplier_id || null
     }
-    console.log(sharedData, 'sharedData')
-    console.log(payload, 'payload')
     onApplyReward(payload);
   };
  
@@ -178,7 +176,8 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
       const payload = {
         "givecardId": givecardId || null,
         "userId": sharedData?.userId  !== "None"  ? sharedData?.userId : null,
-        "givacardBalance": giveCardBlc
+        "givacardBalance": giveCardBlc,
+        "projectId": sharedData?.projectId
       }
       onRedeemingGivecard(payload);
     } else {
@@ -193,6 +192,13 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
         return
       }
       if (response && response.data && response.data.status === 200) {
+        const applyCardData = {
+          selectedValue: selectedValue,
+          moreProjectUrl: response?.data?.data?.moreProjectUrl,
+          exclusiveContentUrl: response?.data?.data?.exclusiveContentUrl
+        }
+        const updatedData = { ...sharedData, applyCardData };
+        updateSharedData(updatedData);
         handleNext("pin-step");
 
       }

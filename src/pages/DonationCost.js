@@ -14,8 +14,6 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const [countryCode, setCountryCode] = useState('')
   const[errorMessage, setErrorMessage] = useState('');
   const[errMessage, setErrMessage] = useState('');
-  console.log(sharedData?.rewardApplied?.creditApplied)
-  console.log(youGive)
   const [ipBasedCurrency, setIpBasedCurrency] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
 
