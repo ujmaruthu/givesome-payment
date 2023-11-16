@@ -153,7 +153,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
           )}
           className={`amount-input ${currencyError !== '' ? "select-input-error" : "select-input"}`}
         >
-          {currencyList.map((item) => (
+          {currencyList?.map((item) => (
           <MenuItem key={item.currencyCode} value={item.currencyCode}>
             <div>
               {currency === item.currencyCode && <span style={{ marginRight: 5 }}>✓</span>}
@@ -169,7 +169,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
     <Typography className="error-message1 mb-10">{currencyError}</Typography>
     <div className='flex-space-btw mb-10'>
       
-        {amountArray.map((amount, i) => (
+        {amountArray?.map((amount, i) => (
         <Button
             key={i}
             className={`normal-text outlined-btn ${active == amount ? "active-btn" : "normal-btn"}`}
