@@ -32,21 +32,34 @@ const PaymentRequestForm = () => {
     }
   });
   pr.on('paymentmethod', async (e) => {
-   // create payment intent on server
-   const {clientSecret} = await fetch('/create-payment-intent', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      paymentMethodType: 'card',
-      currency: 'usd'
-    }),
-  }).then(r => r.json());
+  //  create payment intent on server
+  //  const {clientSecret} = await fetch('/create-payment-intent', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     paymentMethodType: 'card',
+  //     currency: 'usd'
+  //   }),
+  // }).then(r => {
+    
+  //   const res = {
+  //     "clientSecret": "pi_3OD9NjHiWAUtr3KA1Lqcos8e_secret_Ne53TeJPjqJzB7tPrFkJwetaK",
+  //     "paymentIntentId": "pi_3OD9NjHiWAUtr3KA1Lqcos8e",
+  //     "status": "requires_confirmation",
+  //     "clientData": {
+  //       // additional information may be included here
+  //     }
+  //   }
+  //   res.json()});
+  const {clientSecret} = "pi_3OD9NjHiWAUtr3KA1Lqcos8e_secret_Ne53TeJPjqJzB7tPrFkJwetaK"
+  const {paymentIntentId} = "pi_3OD9NjHiWAUtr3KA1Lqcos8e"
+  // const paymentInetnt[status] = "requires_payment_method"
   
   const {error, paymentInetnt} = await stripe.confirmCardPayment (
     clientSecret, {
-      payment_method: e.paymentMethod.id,
+      payment_method: paymentIntentId,
     }, {
       handleActions: false
     }
@@ -56,9 +69,9 @@ const PaymentRequestForm = () => {
     return;
   }
   e.complete('success')
-  if(paymentInetnt.status == 'requires_action') {
+  // if(paymentInetnt.status == 'requires_action') {
     stripe.confirmCardPayment(clientSecret);
-  }
+  // }
 
   });
   
