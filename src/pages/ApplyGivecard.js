@@ -86,7 +86,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
 
   const handleRewardChange = (e) => {
     let inputValue = e.target.value;
-    if (/^[a-zA-Z]*$/.test(inputValue) || inputValue === '') {
+    if (/^[a-zA-Z0-9]*$/.test(inputValue) || inputValue === '') {
       setRewardCode(inputValue);
     }
   };
@@ -165,7 +165,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
     const rewardApplied = {
       "creditApplied": Number(redeemableAmount) || 0,
       "redeemableAmount": Number(redeemableAmount) || 0,
-      "rewardCode": rewardCode,
+      "rewardCode": errorMessage ? '' : rewardCode,
       "givecardId": givecardId,
       "givacardBalance": giveCardBlc,
       "showGiveCardBlc": true
