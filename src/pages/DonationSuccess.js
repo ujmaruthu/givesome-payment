@@ -28,7 +28,7 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
             <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? sharedData?.paymentSuccessData?.createdTime : '-'}</Typography>
           </div></>
         )}
-        <div class="img-container mb-40">
+        <div className="img-container mb-40">
           <img src={sharedData?.projectImage ? "https://qa.givesome.org/"+sharedData?.projectImage : ThankyouIcon} alt="Logo icon" />
         </div>
 

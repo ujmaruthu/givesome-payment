@@ -7,7 +7,7 @@ import {
 
 
 
-const PaymentRequestForm = () => {
+const PaymentRequestForm = ({sharedData, handleNext}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -15,12 +15,14 @@ const PaymentRequestForm = () => {
     if(!stripe || !elements) {
       return;
     }
+    const originalString = sharedData?.donationAmount?.currency;
+    const lowercaseStringCurrency = originalString.toLowerCase();
   const pr = stripe.paymentRequest({
-    country: "US",
-      currency: "usd",
+    country: sharedData?.donationAmount?.currency,
+      currency: lowercaseStringCurrency,
       total: {  
-        label: "Demo total",
-        amount: 1000
+        label: "Donation Amount",
+        amount: Number(sharedData?.rewardApplied?.creditApplied)
       },
       requestPayerName: true,
       requestPayerEmail: true,
@@ -53,8 +55,8 @@ const PaymentRequestForm = () => {
   //     }
   //   }
   //   res.json()});
-  const {clientSecret} = "pi_3OD9NjHiWAUtr3KA1Lqcos8e_secret_Ne53TeJPjqJzB7tPrFkJwetaK"
-  const {paymentIntentId} = "pi_3OD9NjHiWAUtr3KA1Lqcos8e"
+  const {clientSecret} = "pi_3ODn7QHiWAUtr3KA0N5gUvKA_secret_hVy9SGNNRZ5FUKor3ygFaOFxg"
+  const {paymentIntentId} = "pi_3ODn7QHiWAUtr3KA0N5gUvKA"
   // const paymentInetnt[status] = "requires_payment_method"
   
   const {error, paymentInetnt} = await stripe.confirmCardPayment (
@@ -71,6 +73,7 @@ const PaymentRequestForm = () => {
   e.complete('success')
   // if(paymentInetnt.status == 'requires_action') {
     stripe.confirmCardPayment(clientSecret);
+    // handleNext()
   // }
 
   });

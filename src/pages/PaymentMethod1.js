@@ -152,7 +152,7 @@ return (
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
       </div>
       <div className='payment-req'>
-        <PaymentRequestForm />
+        <PaymentRequestForm sharedData={sharedData} handleNext={handleNext}/>
       </div>
       <div className='flex-space-btw'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
