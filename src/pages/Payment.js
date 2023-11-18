@@ -5,7 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import ApplyGivecard from './ApplyGivecard';
 import DonationCost from './DonationCost';
-import PaymentMethod from './PaymentMethod';
+import PaymentMethod1 from './PaymentMethod1';
 import DonationSuccess from './DonationSuccess';
 import AccountSignUp from './AccountSignUp';
 import EmailCreateAccount from './EmailCreateAccount';
@@ -125,7 +125,7 @@ const Payment = () => {
                   {/* {currentStep === 1 && <EmailCreateAccount handleNext={handleNext} />} */}
                   {currentStep === 0 && <ApplyGivecard sharedData={sharedData}  onBackButtonClick={onBackButtonClick} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 1 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
-                  {currentStep === 2 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
+                  {currentStep === 2 && <PaymentMethod1 sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
                   {currentStep === 3 && <DonationSuccess sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
             </CardContent>
           </Card>
