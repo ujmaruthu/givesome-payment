@@ -10,7 +10,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || 0);
   const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied || 0);
-  const [totalAmount, setTotalAmount] = useState(sharedData?.donationAmount?.totalAmount  || (creditApplied + youGive) || 0);
+  const [totalAmount, setTotalAmount] = useState((creditApplied + youGive) || sharedData?.donationAmount?.totalAmount || 0);
   const [countryCode, setCountryCode] = useState('')
   const[errorMessage, setErrorMessage] = useState('');
   const[errMessage, setErrMessage] = useState('');
@@ -95,22 +95,36 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
     setAmount('');
     setYouGive(Number(event.target.value))
     setTotalAmount(Number(event.target.value)+Number(creditApplied));
+    const updatedData = {
+      ...sharedData,
+      donationAmount: {
+        ...sharedData.donationAmount,
+        youGive: Number(event.target.value),
+        btnAmount: Number(event.target.value)
+      },
+    };
+    
+    updateSharedData(updatedData);
   }
   const onChangeAmount = (e) => {
-    let sanitizedValue = e.target.value.replace(/[^\d.]+/, '');
-    const dotCount = sanitizedValue.split('.').length - 1;
-    if (dotCount > 1) {
-      sanitizedValue = sanitizedValue.substring(0, sanitizedValue.lastIndexOf('.'));
-    }
+    let sanitizedValue = e.target.value.replace(/\D/g, '');;
     setAmount(sanitizedValue);
     setYouGive(sanitizedValue);
     setActive('')
     setTotalAmount(Number(e.target.value)+Number(creditApplied));
+    const updatedData = {
+      ...sharedData,
+      donationAmount: {
+        ...sharedData.donationAmount,
+        youGive: sanitizedValue,
+      },
+    };
+    
+    updateSharedData(updatedData);
     if(e.target.value.trim().length !== '') {
       setErrorMessage('')
     }
   }
-
   const onDonationNext = () => {
       let isValid = false;
         if(totalAmount === 0){
