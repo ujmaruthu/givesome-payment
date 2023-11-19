@@ -155,7 +155,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
   }
   const GiveNow = () => { 
     if (!selectedValue) {
-      setRadioErrorMessage('Choose any option to proceed')
+      setRadioErrorMessage('Please choose an option to proceed')
       return
     }
     setShowRedeemSuccess(false)
@@ -177,7 +177,9 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
         "givecardId": givecardId || null,
         "userId": sharedData?.userId  !== "None"  ? sharedData?.userId : null,
         "givacardBalance": giveCardBlc,
-        "projectId": sharedData?.projectId
+        "supplierId": sharedData?.supplier_id || "",
+        "givecardAmount": Number(redeemableAmount) || 0,
+        "currency": currency
       }
       onRedeemingGivecard(payload);
     } else {

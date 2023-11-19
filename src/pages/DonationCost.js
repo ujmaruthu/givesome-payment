@@ -5,12 +5,11 @@ import { getCurrencyList, getIpBasedCurrency } from './redux/actions';
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const amountArray = [2, 5, 10];
-  
   const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || 0);
   const [creditApplied, setCreditApplied] = useState(sharedData?.rewardApplied?.creditApplied || 0);
-  const [totalAmount, setTotalAmount] = useState((creditApplied + youGive) || sharedData?.donationAmount?.totalAmount || 0);
+  const [totalAmount, setTotalAmount] = useState((creditApplied + Number(youGive)) || sharedData?.donationAmount?.totalAmount || 0);
   const [countryCode, setCountryCode] = useState('')
   const[errorMessage, setErrorMessage] = useState('');
   const[errMessage, setErrMessage] = useState('');
@@ -100,7 +99,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
       donationAmount: {
         ...sharedData.donationAmount,
         youGive: Number(event.target.value),
-        btnAmount: Number(event.target.value)
+        amount: "",
+        btnAmount: Number(event.target.value),
       },
     };
     
@@ -117,6 +117,8 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
       donationAmount: {
         ...sharedData.donationAmount,
         youGive: sanitizedValue,
+        amount: sanitizedValue,
+        btnAmount: ''
       },
     };
     
