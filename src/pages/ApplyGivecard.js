@@ -179,7 +179,8 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
         "givacardBalance": giveCardBlc,
         "supplierId": sharedData?.supplier_id || "",
         "givecardAmount": Number(redeemableAmount) || 0,
-        "currency": currency
+        "currency": currency,
+        "projectId":sharedData?.projectId || ""
       }
       onRedeemingGivecard(payload);
     } else {
