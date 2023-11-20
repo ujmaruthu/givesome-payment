@@ -127,6 +127,7 @@ const handleSubmit = async event => {
   if (!stripe || !elements) {
     return;
   }
+  console.log(postalCode.trim().length, 'postalCode.trim().length')
   const card = elements.getElement(CardNumberElement);
   const result = await stripe.createToken(card);
 
@@ -134,13 +135,10 @@ const handleSubmit = async event => {
     setButtonDisabled(false)
     setErrorMessage(result.error.message);
   } 
-  else if(postalCode.trim().length === 0) {
+  else if(postalCode.trim().length !== 5 && postalCode.trim().length !== 6) {
     setButtonDisabled(false)
     setErrorMessage('Your postal code is incomplete.')
-  } else if (lowercaseStringCurrency === 'usd' ? validateUSPostalCode(postalCode) : validateCanadianPostalCode(postalCode)) {
-    setButtonDisabled(false)
-    setErrorMessage('Please enter valid postal code')
-  }
+  } 
   else {
     setErrorMessage('');
     const apiRequest = {
