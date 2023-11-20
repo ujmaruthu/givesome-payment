@@ -68,13 +68,13 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
       setCurrencyList(currencyList);
 
       // For Current Use
-      setCountryCode(defaultCurrency);
-      setCurrency(defaultCurrency);
-      setCurrencySymbol(getCurrencySymbol(defaultCurrency));
+      // setCountryCode(defaultCurrency);
+      // setCurrency(defaultCurrency);
+      // setCurrencySymbol(getCurrencySymbol(defaultCurrency));
 
-      // setCountryCode(sharedData?.donationAmount?.currency || ipBasedCurrency)
-      // setCurrency(sharedData?.donationAmount?.currency || ipBasedCurrency);
-      // setCurrencySymbol(sharedData?.donationAmount?.currency ? getCurrencySymbol(sharedData?.donationAmount?.currency) : getCurrencySymbol(ipBasedCurrency))
+      setCountryCode(sharedData?.donationAmount?.currency || ipBasedCurrency)
+      setCurrency(sharedData?.donationAmount?.currency || ipBasedCurrency);
+      setCurrencySymbol(sharedData?.donationAmount?.currency ? getCurrencySymbol(sharedData?.donationAmount?.currency) : getCurrencySymbol(ipBasedCurrency))
     }
   }, [ipBasedCurrency, currencyList]);
 
