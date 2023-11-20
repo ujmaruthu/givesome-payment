@@ -84,7 +84,17 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   const handleChange = (e) => {
     setCurrency(e.target.value);
     const filteredArray = currencyList?.filter((obj) => obj?.currencyCode === e.target.value)[0]
-    setCurrencySymbol(filteredArray.currencySymbol)
+    setCurrencySymbol(filteredArray.currencySymbol);
+    const updatedData = {
+      ...sharedData,
+      donationAmount: {
+        ...sharedData.donationAmount,
+        "currency": e.target.value,
+        "currencySymbol": filteredArray.currencySymbol
+      },
+    };
+    updateSharedData(updatedData);
+
     setCurrencyError('');
   };
   

@@ -370,11 +370,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 5px;
 }
 .image-div img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     overflow: hidden;
 }
 .radio-givecard label{
@@ -395,16 +396,17 @@
     display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */
 }
 .img-container {
-    object-fit: contain;
-    width: 340px;
-    height: 340px;
-    box-sizing: border-box;
+    width: 100%;
     margin: auto;
+    display: flex;
+    justify-content: center;
 } 
 
-.img-container img {
+/* .img-container img {
     height: 100%;
     width: 100%;
     border-radius: 20px;
-}
-  
+} */
+.placeholder-text::placeholder {
+    text-transform: none !important;
+}  

@@ -27,7 +27,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
   const [currencySymbol, setCurrencySymbol] = useState(null);
   const [giveCardBlc, setGiveCardBlc] = useState(sharedData?.rewardApplied?.givacardBalance || null);
   const [givecardId, setGiveCardId] = useState(sharedData?.rewardApplied?.givecardId || null)
-  const [redeemableAmount, setRedeemableAmount] = useState(sharedData?.rewardApplied?.redeemableAmount || null);
+  const [redeemableAmount, setRedeemableAmount] = useState(sharedData?.rewardApplied?.redeemableAmount);
   const [campaignName, setCampaignName] = useState(null);
   const [campaignMessage, setCampaignMessage] = useState(null);
   const [campaignImage, setCampaignImage] = useState(sharedData?.rewardApplied?.redeemableAmount || null);
@@ -148,9 +148,12 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
 
   const onChangeInput = (e) => {
     let val = formatters.isNumeric(e.target.value);
-    if(val <= creditApplied) {
+    const enteredAmount = Number(val);
+    if(enteredAmount <= creditApplied) {
       setRedeemableAmount(val);
       setGiveCardBlc(creditApplied - val)
+    } else {
+      setRedeemableAmount('');
     }
   }
   const GiveNow = () => { 
@@ -218,7 +221,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
     <>
     {showRedeemSuccess && (
     <div>
-        <Typography className='big-head mb-40' style={{textAlign: 'center'}}><img width={20} height={20} src={TickIcon} style={{ marginRight: 5 }} />PIN Reeemed!</Typography>
+        <Typography className='big-head mb-40' style={{textAlign: 'center'}}><img width={20} height={20} src={TickIcon} style={{ marginRight: 5 }} />PIN Redeemed!</Typography>
         <div className='flex-space-btw mt-10' style={{alignItems: 'center', justifyContent: 'center'}}>
             <div className='image-div'><img src={campaignImage}/></div>
             <div style={{textAlign: 'center', width: "70%"}}>
@@ -273,7 +276,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
 
         {creditApplied === 0 && !sharedData?.rewardApplied?.givecardId ? (
           <div className='apply-amount mb-40'>
-            <input className='amount-input'
+            <input className='amount-input placeholder-text'
               type="text"
               placeholder="Enter 6 digit PIN"
               style={{ textTransform: 'uppercase' }}
@@ -314,7 +317,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
           //   </div>
         ) : <div style={{ height: 60 }}></div>}
         <Button className="normal-text next-btn" variant='contained' onClick={onNextClick}>
-          {selectedValue && selectedValue === 'pin' ? "Give now" : "Next"}
+          {selectedValue && selectedValue === 'pin' ? "Donate Now" : "Next"}
         </Button>
       </div>
   )}

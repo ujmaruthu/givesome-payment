@@ -17,7 +17,7 @@ import PayPal from '../assets/paypal.svg';
 import { donationApi } from './redux/actions';
 // import PaymentRequestForm from './PaymentRequestForm';
 
-const options = {
+const common_options = {
     style: {
       base: {
         color: "#303238",
@@ -34,9 +34,21 @@ const options = {
           color: "#303238"
         }
       },
-      placeholder: 'Custom Placeholder', 
-    }
+    },
+    placeholder: 'Credit Card Number', 
   };
+  const creditCardOptions = {
+    style: common_options.style,
+    placeholder: 'Credit Card Number'
+  }
+  const cvvOptions = {
+    style: common_options.style,
+    placeholder: 'CVV'
+  }
+  const expiryOption = {
+    style: common_options.style,
+    placeholder: 'Expiration MM / YY'
+  }
   
 const stripePromise = loadStripe('pk_test_7rF79g57po6HBEZMbqn1PVPw');
 
@@ -56,6 +68,17 @@ const CheckoutForm = ({handleNext, sharedData, updateSharedData, elements, strip
 
   const [errorMessage, setErrorMessage] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState('');
+
+
+  const validateCanadianPostalCode = (postalCode) => {
+    const canadianPostalCodeRegex = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
+    return canadianPostalCodeRegex.test(postalCode);
+  }
+  const validateUSPostalCode = (postalCode) => {
+    const usZipRegex = /^\d{5}(?:-\d{4})?$/;
+    return usZipRegex.test(postalCode);
+  }
+  
 
   const handleInputChange = (e, type) => {
       if(e.error && e.error.message) {
@@ -97,6 +120,8 @@ const confirmDonation = (apiReq) => {
 
 const handleSubmit = async event => {
   setButtonDisabled(true)
+  const originalString = sharedData?.donationAmount?.currency;
+  const lowercaseStringCurrency = originalString.toLowerCase();
 
   event.preventDefault();
   if (!stripe || !elements) {
@@ -109,14 +134,15 @@ const handleSubmit = async event => {
     setButtonDisabled(false)
     setErrorMessage(result.error.message);
   } 
-  else if(postalCode.trim().length === 0 || postalCode.trim().length !== 6) {
+  else if(postalCode.trim().length === 0) {
     setButtonDisabled(false)
     setErrorMessage('Your postal code is incomplete.')
+  } else if (lowercaseStringCurrency === 'usd' ? validateUSPostalCode(postalCode) : validateCanadianPostalCode(postalCode)) {
+    setButtonDisabled(false)
+    setErrorMessage('Please enter valid postal code')
   }
   else {
     setErrorMessage('');
-    const originalString = sharedData?.donationAmount?.currency;
-    const lowercaseStringCurrency = originalString.toLowerCase();
     const apiRequest = {
       "amount": sharedData?.donationAmount?.totalAmount,
       "youGive":sharedData?.donationAmount?.youGive,
@@ -144,9 +170,9 @@ return (
       <div className="custom-card-element">
         <CardNumberElement 
         onChange={(e)=> {handleInputChange(e, 'cardNo')}}
-        options={options} />
-        <CardExpiryElement options={options} onChange={(e)=> {handleInputChange(e, 'expiry')}}/>
-        <CardCvcElement options={options} onChange={(e)=> {handleInputChange(e, 'ccv')}} />
+        options={creditCardOptions} />
+        <CardExpiryElement options={expiryOption} onChange={(e)=> {handleInputChange(e, 'expiry')}}/>
+        <CardCvcElement options={cvvOptions} onChange={(e)=> {handleInputChange(e, 'ccv')}} />
       </div>
       <div className='apply-amount mb-20 mt-5'>
         <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
