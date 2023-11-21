@@ -225,7 +225,7 @@ const handleClick = (event) => {
 
 return (
   <div>
-    <Typography className='query-head mb-40'>How would you like to pay?</Typography>
+    <Typography className='query-head mb-40 mt-20'>How would you like to pay?</Typography>
   {/* <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay via wallet:</Typography>
   <div className='flex-space-btw mb-20'>
       {paymentMethodArray.map((paymentMethod, i) => (

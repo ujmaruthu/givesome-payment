@@ -165,7 +165,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   }
   return (
     <>
-    <Typography className='query-head mb-40'>How much would you like to Donate?</Typography>
+    <Typography className='query-head mb-40 mt-20'>How much would you like to Donate?</Typography>
     {errMessage  !== ''  &&  <Alert className='mb-20' severity="error">{errMessage}</Alert>}
       <div style={{textAlign: 'right'}}>
         <Select
@@ -220,13 +220,13 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         </div>
       </div>
     </div> */}
-    <div className='flex-space-btw mb-20' style={{marginTop: '-10px', justifyContent: 'start', gap: 32}}>
+    <div className='flex-space-btw mb-20' style={{marginTop: '-10px', justifyContent: 'start', gap: '12%'}}>
       <Typography className="sub-head mb-10" style={{display: 'flex', alignItems: 'center'}}>Enter a <br/>custom amount</Typography>
       <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
         <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
             <label className={`${errorMessage !== '' ? 'money-symbol' : 'money-symbol1'}`} style={{left: '13%'}}>{currencySymbol} </label>
             <Typography className='error-message'>{errorMessage}</Typography>
-            <input style={{ paddingLeft: '25%', textAlign: 'left', width: '120px'}} className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={10} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder='' />
+            <input style={{ paddingLeft: '25%', textAlign: 'left', width: '140px'}} className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={10} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder='' />
         </div>
       </div>
     </div>

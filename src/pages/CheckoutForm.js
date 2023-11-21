@@ -129,7 +129,7 @@ const appearance = {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-        <Typography className='query-head mb-40'>How would you like to pay?</Typography>
+        <Typography className='query-head mb-40 mt-20'>How would you like to pay?</Typography>
         {message && <p>{message}</p>}
 
   {/* <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay with credit card</Typography> */}

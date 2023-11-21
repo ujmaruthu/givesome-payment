@@ -268,7 +268,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
     )}
   {!showRedeemSuccess && (
     <div>
-        <Typography className='query-head mb-40'>Would you like to use a Givecard?</Typography>
+        <Typography className='query-head mb-40 mt-20'>Would you like to use a Givecard?</Typography>
         {errorMessage !== '' && <Alert severity="error" className='mb-20'>{errorMessage}</Alert>}
         <div className='' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography className="sub-head mb-10">Redeem a Givecard:</Typography>
