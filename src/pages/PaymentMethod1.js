@@ -87,8 +87,11 @@ const CheckoutForm = ({handleNext, sharedData, updateSharedData, elements, strip
         setErrorMessage('');
      }
      if(type === 'postalCode') {
-      const value = e.target.value.replace(/\D/g, ''); 
-      setPostalCode(value);
+      // const value = e.target.value.replace(/\D/g, ''); 
+      // setPostalCode(value);
+      if (/^[a-zA-Z0-9]*$/.test(e.target.value)) {
+        setPostalCode(e.target.value);
+      } 
     } 
 
 }
@@ -172,13 +175,13 @@ return (
         <CardExpiryElement options={expiryOption} onChange={(e)=> {handleInputChange(e, 'expiry')}}/>
         <CardCvcElement options={cvvOptions} onChange={(e)=> {handleInputChange(e, 'ccv')}} />
       </div>
-      <div className='apply-amount mb-20 mt-5'>
-        <input className='amount-input' placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
+      <div className='apply-amount mb-20 mt-10'>
+        <input className='amount-input  placeholder-text' style={{textTransform:'uppercase'}} placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
       </div>
       {/* <div className='payment-req'>
         <PaymentRequestForm sharedData={sharedData} handleNext={handleNext}/>
       </div> */}
-      <div className='flex-space-btw'>
+      <div className='flex-space-btw mt-40'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
         <Typography className="normal-text mb-10">{sharedData?.donationAmount?.currencySymbol}{sharedData?.donationAmount?.creditApplied || 0}</Typography>
     </div>
@@ -191,7 +194,7 @@ return (
         <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{sharedData?.donationAmount?.currency} {sharedData?.donationAmount?.currencySymbol}{sharedData?.donationAmount?.totalAmount || 0}</Typography>
     </div>
     
-    <Button type='submit' className={`normal-text next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe || buttonDisabled}>
+    <Button type='submit' className={`normal-text mt-10 next-btn ${!stripe  ? 'payment-disabled' : ''}`}  variant='contained' disabled={!stripe || buttonDisabled}>
       {!stripe || buttonDisabled ? (<><CircularProgress className='progress-color' /><span style={{color:'#fff'}}>Processing...</span></>) : <span>Confirm Donation</span>}
     </Button>
     <Typography className='normal-text mb-10 mt-20 flex-center'>Donation processed by See the Good Foundation.</Typography>
@@ -237,7 +240,7 @@ return (
       ))}
   </div> */}
   
-  <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay with credit card</Typography>
+  <Typography className="sub-head" style={{textAlign: 'left'}}>Pay with credit card</Typography>
       <div>
         <Elements stripe={stripePromise}>
           <InjectedCheckoutForm  handleNext={handleNext} sharedData={sharedData} updateSharedData={updateSharedData} />

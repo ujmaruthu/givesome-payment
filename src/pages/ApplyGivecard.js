@@ -201,7 +201,8 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
         const applyCardData = {
           selectedValue: selectedValue,
           moreProjectUrl: response?.data?.data?.moreProjectUrl,
-          exclusiveContentUrl: response?.data?.data?.exclusiveContentUrl
+          exclusiveContentUrl: response?.data?.data?.exclusiveContentUrl,
+          createdTime: response?.data?.data?.createdTime
         }
         const updatedData = { ...sharedData, applyCardData };
         updateSharedData(updatedData);

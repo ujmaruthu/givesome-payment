@@ -56,6 +56,7 @@ export const redeemGivecardApi = async (data) => {
     //       "status": 200,
     //       "data": {
     //           "moreProjectUrl": "https://qa.givesome.org/mind-aid/",
+                  // "createdTime": "2023-11-21T08:01:31.137136600Z",
     //           "exclusiveContentUrl": "https://qa.givesome.org/"
     //       }
     //   }
@@ -93,16 +94,17 @@ export const getIpBasedCurrency = async (data) => {
 
 export const createPaymentIntent = async (data) => {
 
-  const endpoint = `http://localhost:8080/api/payment/paymentIntent`;
+  const endpoint = `https://qa-api.givesome.gives/api/payment/paymentIntent`;
   try {
       const response = await axios.post(`${endpoint}`, data);
     //   const response = {
     //    data: {
-    //     "message": "Payment Intent Creation",
+    //     "message": "Givecard Response",
     //     "status": 200,
     //     "data": {
-    //         "clientSecret": "pi_3ODhgFHiWAUtr3KA1bkLCwb9_secret_K3y1gNtCA1ELawESG2rQBMzCH",
-    //         "paymentIntentId": "pi_3ODhgFHiWAUtr3KA1bkLCwb9"
+    //         "balance": 2,
+    //         "campaignName": "Bevy",
+    //         "campaignImage": "https://qa.givesome.org/media/filer_public/0f/d2/0fd2c414-2175-4664-97b1-3f5ac903fcfd/bevy.png"
     //     }
     // }
     // }

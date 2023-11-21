@@ -7,8 +7,6 @@ import ApplyGivecard from './ApplyGivecard';
 import DonationCost from './DonationCost';
 import PaymentMethod1 from './PaymentMethod1';
 import DonationSuccess from './DonationSuccess';
-import AccountSignUp from './AccountSignUp';
-import EmailCreateAccount from './EmailCreateAccount';
 import BackIcon from '../assets/backIcon.svg';
 import CloseIcon from '../assets/close.svg';
 // const carouselImages = [
@@ -77,7 +75,10 @@ const Payment = () => {
   const onBackButtonClick = (showButton) => {
     setIsButtonVisible(showButton);
   };
-
+  console.log(image, 'image')
+  const divStyle = {
+    backgroundImage: `url(${"https://qa.givesome.org/"+image})`,
+  };
 
   return (
     <div>
@@ -100,23 +101,13 @@ const Payment = () => {
                 </IconButton> */}
               {currentStep !== 3 && (
                 // <AutoPlaySwipeableCarousel images={carouselImages} />
-                <div style={{position: 'relative', paddingBottom: 5}}>
-                  <><Box
-                    component="img"
-                    sx={{
-                      height: 255,
-                      display: 'block',
-                      overflow: 'hidden',
-                      width: '100%',
-                      borderRadius: '5px !important',
-                      // border: '1px solid #ccc'
-                    }}
-                    src={"https://qa.givesome.org/"+image}
-                    alt="Project image" />
-                    <div className='image-over-text'>
-                      <Typography className='query-head mb-10' style={{color: "#fff", position: 'absolute', bottom: 40}}>{name}</Typography>
-                      <Typography className="normal-text-head mb-10" style={{color: "#fff", position: 'absolute', bottom: 5}}>{sub_name}</Typography>
-                    </div></>
+                <div style={{ paddingBottom: 5}}>
+                    <div style={divStyle} className="img-top">
+                      <div className='image-over-text'>
+                        <Typography className='query-head' style={{color: "#fff", marginBottom: 6}}>{name}</Typography>
+                        <Typography className="normal-text" style={{color: "#fff"}}>{sub_name}</Typography>
+                      </div>
+                    </div>
               </div>
               )}
             </div>

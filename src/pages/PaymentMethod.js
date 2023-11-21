@@ -15,9 +15,12 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
 
 
     useEffect(()=>{
+      const originalString = sharedData?.donationAmount?.currency;
+      const lowercaseStringCurrency = originalString.toLowerCase();
         const apiReq = {
-            "amount": 5,
-            "currency": "usd"
+          "mode": 'payment',
+          "amount": sharedData?.donationAmount?.youGive,
+          "currency": lowercaseStringCurrency
         }
         createPaymentIntent(apiReq).then((response) => {
             //   setErrorMessage('')
@@ -27,7 +30,13 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
               }
               if (response && response.data && response.data.status === 200) {
                 console.log(response);
-                setClientSecret(response.data.data.clientSecret);
+                const paymentIntent  = {
+                  "clientSecret": response.data.data.clientSecret,
+                  "paymentIntentId": response.data.data.paymentIntentId,
+              }
+              const updatedData = { ...sharedData, paymentIntent };
+              updateSharedData(updatedData);
+              setClientSecret(response.data.data.clientSecret);
               }
               if (response && response.data && response.data.status !== 200) {
                 // setErrorMessage(response.data.message);
@@ -39,41 +48,11 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
             });
     },[])
   
-    // useEffect(() => {
-    //    const payload = {
-    //         "amount": 5,
-    //         "currency": "usd"
-    //     }
-        
-    //     alert(3333)
-    //     fetch("http://localhost:8080/api/payment/paymentIntent", {
-    //       method: "POST",
-    //       body: JSON.stringify({payload}),
-    //     }).then(async (result) => {
-    //       const responsee = {
-    //         "id": "pi_3OD9NjHiWAUtr3KA1Lqcos8e",
-    //         "object": "payment_intent",
-    //         "amount": 2000,
-    //         "currency": "USD",
-    //         "automatic_payment_methods": {
-    //           "enabled": true
-    //         },
-    //         "client_secret": "pi_3OD9NjHiWAUtr3KA1Lqcos8e_secret_Ne53TeJPjqJzB7tPrFkJwetaK",
-    //       }
-          
-    
-    //     var { client_secret: clientSecret } = responsee;
-
-    //       console.log(clientSecret, 'clientSct')
-    //       setClientSecret("pi_3OD9NjHiWAUtr3KA1Lqcos8e_secret_Ne53TeJPjqJzB7tPrFkJwetaK");
-    //     });
-    //   }, []);
-  
     return (
       <>
         {clientSecret && stripePromise && (
           <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <CheckoutForm />
+            <CheckoutForm handleNext={handleNext} sharedData={sharedData} csKey={clientSecret}/>
           </Elements>
         )}
       </>

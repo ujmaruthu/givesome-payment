@@ -205,13 +205,43 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
             variant='outlined'>{currencySymbol}{amount}</Button>
         ))}
     </div>
-    <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
-    <div style={{ position: 'relative', width: '100%' }}>
-        <label className={`${errorMessage !== '' ? 'money-symbol' : 'money-symbol1'}`}>{currencySymbol} </label>
-        <Typography className='error-message'>{errorMessage}</Typography>
-        <input className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={8} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder=' Enter a custom amount' />
+    {/* <div class="or-divider-holder">
+        <hr class="divider3" />
+        <div class="or-style normal-text"><b>Or</b></div>
+        <hr class="divider3" />
+    </div> */}
+    {/* <div className='flex-space-btw mb-20' style={{marginTop: '-10px'}}>
+      <Typography className="normal-text mb-10" style={{display: 'flex', alignItems: 'center'}}>Enter a custom amount</Typography>
+      <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
+        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <label className={`${errorMessage !== '' ? 'money-symbol' : 'money-symbol1'}`} style={{left: '48%'}}>{currencySymbol} </label>
+            <Typography className='error-message'>{errorMessage}</Typography>
+            <input style={{ paddingLeft: '16%', textAlign: 'right', width: '60%'}} className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={8} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder='' />
+        </div>
+      </div>
+    </div> */}
+    <div className='flex-space-btw mb-20' style={{marginTop: '-10px', justifyContent: 'start', gap: 32}}>
+      <Typography className="sub-head mb-10" style={{display: 'flex', alignItems: 'center'}}>Enter a <br/>custom amount</Typography>
+      <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
+        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <label className={`${errorMessage !== '' ? 'money-symbol' : 'money-symbol1'}`} style={{left: '13%'}}>{currencySymbol} </label>
+            <Typography className='error-message'>{errorMessage}</Typography>
+            <input style={{ paddingLeft: '25%', textAlign: 'left', width: '120px'}} className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={10} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder='' />
+        </div>
+      </div>
     </div>
-  </div>
+
+  {/* <Typography className="sub-head mb-10 mt-20">Enter a custom amount:</Typography>
+
+
+    <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
+    <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <label className={`${errorMessage !== '' ? 'money-symbol' : 'money-symbol1'}`} style={{left: '39%'}}>{currencySymbol} </label>
+        <Typography className='error-message'>{errorMessage}</Typography>
+        <input style={{width: 120,  paddingLeft: '8%'}} className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={8} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder=' ' />
+    </div>
+  </div> */}
+    
     {/* <Typography className="sub-head mb-10">Redeem a Givecard:</Typography>
     <div className='apply-amount mb-40'>
         <input className='amount-input' 
@@ -226,7 +256,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         </Button>
     </div> */}
 
-    <div className='flex-space-btw'>
+    <div className='flex-space-btw mt-20'>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
         <Typography className="normal-text mb-10">{currencySymbol}{creditApplied ? creditApplied : 0}</Typography>
     </div>
