@@ -52,7 +52,8 @@ const handleSubmit = async (e) => {
             },
           };
           updateSharedData(updatedData);
-          handleNext();
+          // alert('success')
+          handleNext("success");
         } else {
           setErrorMessage('Unexpected payment status:', paymentIntent.status)
           console.log('Unexpected payment status:', paymentIntent.status);

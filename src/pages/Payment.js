@@ -8,6 +8,7 @@ import DonationCost from './DonationCost';
 import PaymentMethod1 from './PaymentMethod1';
 import PaymentMethod from './PaymentMethod';
 import DonationSuccess from './DonationSuccess';
+import DonationSuccess2 from './DonationSuccess2';
 import BackIcon from '../assets/backIcon.svg';
 import CloseIcon from '../assets/close.svg';
 // const carouselImages = [
@@ -61,6 +62,9 @@ const Payment = () => {
       setCurrentStep(3); 
     } else if (flag === 'payment-step' ) {
       setCurrentStep(4)
+    }
+    else if (flag === 'success' ) {
+      setCurrentStep(5)
     }
     else {
       setCurrentStep((prevStep) => prevStep + 1);
@@ -122,6 +126,7 @@ const Payment = () => {
                   {currentStep === 2 && <PaymentMethod1 sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
                   {currentStep === 3 && <DonationSuccess sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
                   {currentStep === 4 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
+                  {currentStep === 5 && <DonationSuccess2 sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
             </CardContent>
           </Card>
         </Grid>

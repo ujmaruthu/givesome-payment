@@ -48,7 +48,7 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
         </div>
         )}
         <div style={{ textAlign: 'center' }}>
-            <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? moment(sharedData?.paymentSuccessData?.createdTime).format('MMMM DD, YYYY, hh:mm A') : sharedData?.applyCardData?.createdTime ? moment(sharedData?.applyCardData?.createdTime).format('LL')  : '-'}</Typography>
+            <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? moment(sharedData?.paymentSuccessData?.createdTime).format('MMMM DD, YYYY, hh:mm A') : sharedData?.applyCardData?.createdTime ? moment(sharedData?.applyCardData?.createdTime).format('MMMM DD, YYYY, hh:mm A')  : '-'}</Typography>
           </div>
         <div className="img-container mb-30">
           <div style={divStyle}></div>
