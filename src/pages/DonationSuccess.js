@@ -29,7 +29,7 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
   return (
     <><div style={{ textAlign: 'center', minHeight: 400, position: 'relative' }}>
       {showConfetti && 
-      <div style={{position: 'relative', zIndex:1}}>
+      <div style={{position: 'relative', zIndex: 0}}>
       <Confetti width={window.innerWidth}
           height={window.innerHeight}
           numberOfPieces={200}
@@ -58,10 +58,10 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
     </div>
     <div className='btn-holder mb-10'>
         <Button className="normal-text default-btn"  style={{width: '50%'}} variant='contained' onClick={moreProjectRedrection}>
-          More Projects
+          <p className='lg-btn-text'>More Projects</p>
         </Button>
         <Button className="normal-text outlined-black-btn" style={{textTransform: 'capitalize', width: '50%', borderRadius: 12, backgroundColor: '#fff'}} variant='outlined' onClick={exclusiveContentRedrection}>
-          <b>Exclusive Content</b>
+          <p className='lg-btn-text'>Exclusive Content</p>
         </Button>
       </div>
       

@@ -284,7 +284,7 @@ const ApplyGivecard = ({ handleNext, sharedData, updateSharedData, onBackButtonC
               value={rewardCode}
               maxLength={6}
               onChange={handleRewardChange} />
-            <Button className="normal-text apply-btn" style={{textTransform: 'capitalize'}} onClick={handleApplyReward} disabled={applyBtnDisable || rewardCode?.trim() === ''} variant='contained'>
+            <Button className="normal-text apply-btn" style={{textTransform: 'capitalize', borderRadius: 10}} onClick={handleApplyReward} disabled={applyBtnDisable || rewardCode?.trim() === ''} variant='contained'>
               Apply
             </Button>
           </div>
