@@ -62,7 +62,13 @@
     background: white;
     height: 48px !important;
   }
-  
+  #payment-element {
+    height: auto !important;
+    max-width: unset !important;
+    border: none !important;
+    padding: 0;
+    display: block;
+  }
   .custom-card-element  input::placeholder {
     color: #aab7c4;
   }

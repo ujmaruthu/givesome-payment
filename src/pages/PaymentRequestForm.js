@@ -16,7 +16,7 @@ const PaymentRequestForm = ({sharedData, handleNext}) => {
       return;
     }
     const originalString = sharedData?.donationAmount?.currency;
-    const lowercaseStringCurrency = originalString.toLowerCase();
+    const lowercaseStringCurrency = originalString?.toLowerCase();
   const pr = stripe.paymentRequest({
     country: "US",
       currency: lowercaseStringCurrency,

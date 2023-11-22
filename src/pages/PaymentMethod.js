@@ -16,7 +16,7 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
 
     useEffect(()=>{
       const originalString = sharedData?.donationAmount?.currency;
-      const lowercaseStringCurrency = originalString.toLowerCase();
+      const lowercaseStringCurrency = originalString?.toLowerCase();
         const apiReq = {
           "mode": 'payment',
           "amount": sharedData?.donationAmount?.youGive,

@@ -186,9 +186,28 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
     updateSharedData(updatedData);
     handleNext();
   }
+  const handleDbClick = event => {
+    console.log(event.detail);
+    switch (event.detail) {
+      case 1: {
+        break;
+      }
+      case 2: {
+        handleNext("payment-step")
+        break;
+      }
+      case 3: {
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  };
+
   return (
     <>
-    <Typography className='query-head mb-40'>How much would you like to Donate?</Typography>
+    <Typography className='query-head mb-40' onDoubleClick={handleDbClick}>How much would you like to Donate?</Typography>
     {errMessage  !== ''  &&  <Alert className='mb-20' severity="error">{errMessage}</Alert>}
       <div style={{textAlign: 'right', marginTop: '-10px', marginBottom: 10}}>
         <Select

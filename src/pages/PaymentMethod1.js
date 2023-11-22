@@ -124,7 +124,7 @@ const confirmDonation = (apiReq) => {
 const handleSubmit = async event => {
   setButtonDisabled(true)
   const originalString = sharedData?.donationAmount?.currency;
-  const lowercaseStringCurrency = originalString.toLowerCase();
+  const lowercaseStringCurrency = originalString?.toLowerCase();
 
   event.preventDefault();
   if (!stripe || !elements) {

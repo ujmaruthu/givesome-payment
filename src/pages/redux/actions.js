@@ -117,7 +117,7 @@ export const createPaymentIntent = async (data) => {
 
 export const retrievePaymentDetails = async (data) => {
 
-  const endpoint = `http://localhost:8080/api/payment/confirm`;
+  const endpoint = `https://qa-api.givesome.gives/api/payment/confirm`;
   try {
       const response = await axios.post(`${endpoint}`, data);
     // const response = {

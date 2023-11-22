@@ -23,9 +23,9 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
     marginBottom: 20
   };
 
-  // setTimeout(() => {
-  //   setShowConfetti(false);
-  // }, 10000);
+  setTimeout(() => {
+    setShowConfetti(false);
+  }, 10000);
   return (
     <><div style={{ textAlign: 'center', minHeight: 400, position: 'relative' }}>
       {showConfetti && 

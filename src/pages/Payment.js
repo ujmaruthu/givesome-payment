@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import ApplyGivecard from './ApplyGivecard';
 import DonationCost from './DonationCost';
 import PaymentMethod1 from './PaymentMethod1';
+import PaymentMethod from './PaymentMethod';
 import DonationSuccess from './DonationSuccess';
 import BackIcon from '../assets/backIcon.svg';
 import CloseIcon from '../assets/close.svg';
@@ -58,7 +59,10 @@ const Payment = () => {
   const handleNext = (flag) => {
     if(flag === 'pin-step') {
       setCurrentStep(3); 
-    } else {
+    } else if (flag === 'payment-step' ) {
+      setCurrentStep(4)
+    }
+    else {
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
@@ -117,6 +121,7 @@ const Payment = () => {
                   {currentStep === 1 && <DonationCost sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}
                   {currentStep === 2 && <PaymentMethod1 sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext} />}
                   {currentStep === 3 && <DonationSuccess sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
+                  {currentStep === 4 && <PaymentMethod sharedData={sharedData} updateSharedData={updateSharedData} handleNext={handleNext}/>}       
             </CardContent>
           </Card>
         </Grid>
