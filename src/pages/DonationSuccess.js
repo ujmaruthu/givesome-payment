@@ -23,24 +23,24 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
     marginBottom: 20
   };
 
-  setTimeout(() => {
-    setShowConfetti(false);
-  }, 10000);
+  // setTimeout(() => {
+  //   setShowConfetti(false);
+  // }, 10000);
   return (
-    <><div style={{ textAlign: 'center', minHeight: 400 }}>
+    <><div style={{ textAlign: 'center', minHeight: 400, position: 'relative' }}>
       {showConfetti && 
-      <div style={{position: 'absolute', zIndex:1}}>
+      <div style={{position: 'relative', zIndex:1}}>
       <Confetti width={window.innerWidth}
           height={window.innerHeight}
           numberOfPieces={200}
-          opacity={0.8}
+          opacity={0.7}
         />
         </div>
       }
+      <div style={{position: 'relative'}}>
       <div>
-      <div>
-        <Typography className='big-head mb-20 mt-30'>Thank you! Now, see the good.</Typography>
-        <Typography className="lg-normal-text mb-40">Once the project is fully funded, we’ll send you <br /> video and blog updates.</Typography>
+        <Typography className='big-head mb-10 mt-30'>Thank you! Now, see the good.</Typography>
+        <Typography className="lg-normal-text mb-30" style={{color:'#111111BF'}}>Once the project is fully funded, we’ll send you <br /> video and blog updates.</Typography>
       </div>
       {sharedData?.applyCardData?.selectedValue !== 'pin' && (
         <div style={{ textAlign: 'center' }}>
@@ -48,21 +48,23 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
         </div>
         )}
         <div style={{ textAlign: 'center' }}>
-            <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? moment(sharedData?.paymentSuccessData?.createdTime).format('LL') : sharedData?.applyCardData?.createdTime ? moment(sharedData?.applyCardData?.createdTime).format('LL')  : '-'}</Typography>
+            <Typography className="normal-text mb-20">Completed on: {sharedData?.paymentSuccessData?.createdTime ? moment(sharedData?.paymentSuccessData?.createdTime).format('MMMM DD, YYYY, hh:mm A') : sharedData?.applyCardData?.createdTime ? moment(sharedData?.applyCardData?.createdTime).format('LL')  : '-'}</Typography>
           </div>
-        <div className="img-container mb-40">
+        <div className="img-container mb-30">
           <div style={divStyle}></div>
           {/* <img src={sharedData?.projectImage ? "https://qa.givesome.org/"+sharedData?.projectImage : ThankyouIcon} alt="Logo icon" /> */}
         </div>
 
-    </div><div className='btn-holder mb-10'>
+    </div>
+    <div className='btn-holder mb-10'>
         <Button className="normal-text default-btn"  style={{width: '50%'}} variant='contained' onClick={moreProjectRedrection}>
           More Projects
         </Button>
-        <Button className="normal-text outlined-black-btn" style={{textTransform: 'capitalize', width: '50%', borderRadius: 12}} variant='outlined' onClick={exclusiveContentRedrection}>
+        <Button className="normal-text outlined-black-btn" style={{textTransform: 'capitalize', width: '50%', borderRadius: 12, backgroundColor: '#fff'}} variant='outlined' onClick={exclusiveContentRedrection}>
           <b>Exclusive Content</b>
         </Button>
       </div>
+      
       </div>
       </>
   );

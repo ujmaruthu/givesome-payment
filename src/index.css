@@ -1,11 +1,11 @@
 
 body {
   margin: 0;
-  font-family: 'Albert Sans', sans-serif !important;
+  font-family: 'Albert Sans' !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: 'Albert Sans', sans-serif !important;
+  font-family: 'Albert Sans' !important;
 }

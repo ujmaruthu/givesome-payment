@@ -81,15 +81,12 @@ const PaymentRequestForm = () => {
       requestPayerEmail: true,
     },
     onPaymentMethod: ({ complete, paymentMethod, ...data }) => {
-      console.log("[PaymentMethod]", paymentMethod);
-      console.log("[Customer Data]", data);
       complete("success");
     }
   });
   const options = useOptions(paymentRequest);
 
   if (!paymentRequest) {
-    console.log('oooo')
     return null;
   }
 

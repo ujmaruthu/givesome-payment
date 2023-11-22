@@ -75,7 +75,6 @@ const Payment = () => {
   const onBackButtonClick = (showButton) => {
     setIsButtonVisible(showButton);
   };
-  console.log(image, 'image')
   const divStyle = {
     backgroundImage: `url(${"https://qa.givesome.org/"+image})`,
   };

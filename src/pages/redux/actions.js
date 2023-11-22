@@ -142,9 +142,9 @@ export const retrievePaymentDetails = async (data) => {
 
 export const getDenominationsList = async (data) => {
 
-  const endpoint = `https://qa-api.givesome.gives/api/api/payment/amount/`+data.projectId;
+  const endpoint = `https://qa-api.givesome.gives/api/payment/amount/`+data.projectId;
   try {
-      const response = await axios.post(`${endpoint}`, data);
+      const response = await axios.get(`${endpoint}`, data);
     //   const response = {
     //    "data": {
     //     "message": "Denomination Amount",

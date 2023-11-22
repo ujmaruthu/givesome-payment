@@ -39,31 +39,31 @@
     font-size: 26px !important;
     font-weight: 700 !important;
     line-height: 26px !important;
-    font-family: 'Albert Sans', sans-serif !important;
+    font-family: 'Albert Sans' !important;
 }
 .query-head {
     font-size: 20px !important;
     font-weight: 700 !important;
     line-height: 20px !important;
-    font-family: 'Albert Sans', sans-serif !important;
+    font-family: 'Albert Sans' !important;
 }
 .sub-head {
     font-size: 14px !important;
     font-weight: 700 !important;
     line-height: 14px !important;
-    font-family: 'Albert Sans', sans-serif !important;
+    font-family: 'Albert Sans' !important;
 }
 .lg-normal-text {
     font-size: 16px !important;
     font-weight: 400 !important;
     line-height: 24px !important;
-    font-family: 'Albert Sans', sans-serif !important;
+    font-family: 'Albert Sans' !important;
 }
 .normal-text, .receipt-label .MuiFormControlLabel-label {
     font-size: 14px !important;
     font-weight: 400 !important;
     line-height: 1.5 !important;
-    font-family: 'Albert Sans', sans-serif !important;
+    font-family: 'Albert Sans' !important;
 }
 .w-100 {
     width: 100%;
@@ -408,7 +408,7 @@
     font-size: 14px;
     font-weight: 400 !important;
     line-height: 1.5 !important;
-    font-family: 'Albert Sans', sans-serif !important;
+    font-family: 'Albert Sans' !important;
 }
 ::-webkit-scrollbar {
     display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */

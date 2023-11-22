@@ -5,7 +5,7 @@ import { getCurrencyList, getIpBasedCurrency, getDenominationsList } from './red
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   // const amountArray = [2, 5, 10];
-  const [amountArray, setAmountArray] = useState([2, 5, 6])
+  const [amountArray, setAmountArray] = useState([])
   const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || 0);
@@ -188,9 +188,9 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
   }
   return (
     <>
-    <Typography className='query-head mb-40 mt-20'>How much would you like to Donate?</Typography>
+    <Typography className='query-head mb-40'>How much would you like to Donate?</Typography>
     {errMessage  !== ''  &&  <Alert className='mb-20' severity="error">{errMessage}</Alert>}
-      <div style={{textAlign: 'right'}}>
+      <div style={{textAlign: 'right', marginTop: '-10px', marginBottom: 10}}>
         <Select
           value={currency}
           onChange={(e) => { handleChange(e) }}
@@ -213,7 +213,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         ))}
         </Select>
       </div> 
-    <Typography className="sub-head mb-10" style={{marginTop: '-15px'}}>Specify amount:</Typography>
+    <Typography className="sub-head mb-10" style={{marginTop: '-25px'}}>Specify amount:</Typography>
    
     <Typography className="error-message1 mb-10">{currencyError}</Typography>
     <div className='flex-space-btw mb-10'>
@@ -243,13 +243,13 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         </div>
       </div>
     </div> */}
-    <div className='flex-space-btw mb-20' style={{marginTop: '-10px', justifyContent: 'start', gap: '10%'}}>
+    <div className='flex-space-btw' style={{marginTop: '-10px', justifyContent: 'start', gap: '10%'}}>
       <Typography className="sub-head mb-10" style={{display: 'flex', alignItems: 'center'}}>Enter a <br/>custom amount</Typography>
       <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
         <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
             <label className={`${errorMessage !== '' ? 'money-symbol' : 'money-symbol1'}`} style={{left: '13%'}}>{currencySymbol} </label>
             <Typography className='error-message'>{errorMessage}</Typography>
-            <input style={{ paddingLeft: '25%', textAlign: 'left', width: '140px'}} className={`amount-input mb-20 input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={10} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder='' />
+            <input style={{ paddingLeft: '25%', textAlign: 'left', width: '140px'}} className={`amount-input input-center ${errorMessage !== '' ? 'err-input' : ''}`}  maxLength={10} value={amount} onChange={(e)=> {onChangeAmount(e)}} placeholder='' />
         </div>
       </div>
     </div>
@@ -279,7 +279,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         </Button>
     </div> */}
 
-    <div className='flex-space-btw mt-20'>
+    <div className='flex-space-btw' style={{marginTop: 10}}>
         <Typography className="normal-text mb-10">Givecard Credit Applied</Typography>
         <Typography className="normal-text mb-10">{currencySymbol}{creditApplied ? creditApplied : 0}</Typography>
     </div>
@@ -287,7 +287,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         <Typography className="normal-text mb-10">You Give</Typography>
         <Typography className="normal-text mb-10">{currencySymbol}{youGive ? youGive : 0}</Typography>
     </div>
-    <div className='flex-space-btw mb-20'>
+    <div className='flex-space-btw' style={{marginBottom: 15}}>
         <Typography className="sub-head mb-10">TOTAL</Typography>
         <Typography className="sub-head mb-10" style={{textTransform: 'uppercase'}}>{currency} {currencySymbol}{totalAmount ? totalAmount : 0}</Typography>
     </div>

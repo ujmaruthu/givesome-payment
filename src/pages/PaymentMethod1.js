@@ -130,7 +130,6 @@ const handleSubmit = async event => {
   if (!stripe || !elements) {
     return;
   }
-  console.log(postalCode.trim().length, 'postalCode.trim().length')
   const card = elements.getElement(CardNumberElement);
   const result = await stripe.createToken(card);
 
@@ -175,7 +174,7 @@ return (
         <CardExpiryElement options={expiryOption} onChange={(e)=> {handleInputChange(e, 'expiry')}}/>
         <CardCvcElement options={cvvOptions} onChange={(e)=> {handleInputChange(e, 'ccv')}} />
       </div>
-      <div className='apply-amount mb-20 mt-10'>
+      <div className='apply-amount mb-20 mt-5'>
         <input className='amount-input  placeholder-text' style={{textTransform:'uppercase'}} placeholder="Postal Code" maxLength={6} onChange={(e)=> {handleInputChange(e, 'postalCode')}} value={postalCode}/>
       </div>
       {/* <div className='payment-req'>
@@ -225,7 +224,7 @@ const handleClick = (event) => {
 
 return (
   <div>
-    <Typography className='query-head mb-40 mt-20'>How would you like to pay?</Typography>
+    <Typography className='query-head mb-40'>How would you like to pay?</Typography>
   {/* <Typography className="sub-head mb-10" style={{textAlign: 'left'}}>Pay via wallet:</Typography>
   <div className='flex-space-btw mb-20'>
       {paymentMethodArray.map((paymentMethod, i) => (
@@ -240,7 +239,7 @@ return (
       ))}
   </div> */}
   
-  <Typography className="sub-head" style={{textAlign: 'left'}}>Pay with credit card</Typography>
+  <Typography className="sub-head" style={{textAlign: 'left', marginBottom: 5}}>Pay with credit card</Typography>
       <div>
         <Elements stripe={stripePromise}>
           <InjectedCheckoutForm  handleNext={handleNext} sharedData={sharedData} updateSharedData={updateSharedData} />

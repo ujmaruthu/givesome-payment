@@ -28,7 +28,6 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
                 return
               }
               if (response && response.data && response.data.status === 200) {
-                console.log(response);
                 const paymentIntent  = {
                   "clientSecret": response.data.data.clientSecret,
                   "paymentIntentId": response.data.data.paymentIntentId,
