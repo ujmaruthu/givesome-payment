@@ -20,12 +20,11 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
         const apiReq = {
           "mode": 'payment',
           "amount": sharedData?.donationAmount?.youGive,
-          "currency": lowercaseStringCurrency
+          "currency": lowercaseStringCurrency,
+          "description": sharedData?.donationAmount?.description+' (to '+sharedData.projectName+')',
         }
         createPaymentIntent(apiReq).then((response) => {
-            //   setErrorMessage('')
               if(response.code && response.code  !== "") {
-                // setErrorMessage(response.code);
                 return
               }
               if (response && response.data && response.data.status === 200) {
@@ -39,12 +38,10 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
               setClientSecret(response.data.data.clientSecret);
               }
               if (response && response.data && response.data.status !== 200) {
-                // setErrorMessage(response.data.message);
               }
             })
             .catch((error) => {
               console.error('Error fetching data:', error);
-            //   setErrorMessage(error.message);
             });
     },[])
   
@@ -52,7 +49,7 @@ const PaymentMethod = ({ handleNext, sharedData, updateSharedData }) => {
       <>
         {clientSecret && stripePromise && (
           <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <CheckoutForm handleNext={handleNext} sharedData={sharedData} csKey={clientSecret}/>
+            <CheckoutForm handleNext={handleNext} sharedData={sharedData} updateSharedData={updateSharedData}/>
           </Elements>
         )}
       </>

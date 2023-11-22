@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Typography, Button, Select, MenuItem, Alert } from '@mui/material';
 import '../styles/common.css';
-import { getCurrencyList, getIpBasedCurrency } from './redux/actions';
+import { getCurrencyList, getIpBasedCurrency, getDenominationsList } from './redux/actions';
 
 const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
-  const amountArray = [2, 5, 10];
+  // const amountArray = [2, 5, 10];
+  const [amountArray, setAmountArray] = useState([2, 5, 6])
   const [active, setActive] = useState(sharedData?.donationAmount?.btnAmount  || '');
   const [amount, setAmount] = useState(sharedData?.donationAmount?.amount  || null);
   const [youGive, setYouGive] = useState(sharedData?.donationAmount?.youGive  || 0);
@@ -61,6 +62,28 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
       setCurrencySymbol(sharedData?.donationAmount?.currency ? getCurrencySymbol(sharedData?.donationAmount?.currency) : getCurrencySymbol(ipBasedCurrency))
     }
   }, [ipBasedCurrency, currencyList]);
+
+  useEffect(()=>{
+    const apiReq = {
+      "projectId": sharedData?.projectId,
+    }
+    getDenominationsList(apiReq).then((response) => {
+            if(response.code && response.code  !== "") {
+              return
+            }
+            if (response && response.data && response.data.status === 200) {
+               const values = Object.values(response.data.data);
+               setAmountArray(values);
+            }
+            if (response && response.data && response.data.status !== 200) {
+              // setErrorMessage(response.data.message);
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          //   setErrorMessage(error.message);
+          });
+  },[])
 
 
   const getCurrencySymbol = (currencyCode) => {
@@ -220,7 +243,7 @@ const DonationCost = ({ handleNext, sharedData, updateSharedData }) => {
         </div>
       </div>
     </div> */}
-    <div className='flex-space-btw mb-20' style={{marginTop: '-10px', justifyContent: 'start', gap: '12%'}}>
+    <div className='flex-space-btw mb-20' style={{marginTop: '-10px', justifyContent: 'start', gap: '10%'}}>
       <Typography className="sub-head mb-10" style={{display: 'flex', alignItems: 'center'}}>Enter a <br/>custom amount</Typography>
       <div style={{display: 'flex', flexDirection: 'row',alignItems: 'baseline', marginTop: 15}}>
         <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>

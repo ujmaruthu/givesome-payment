@@ -105,13 +105,13 @@ const Payment = () => {
                     <div style={divStyle} className="img-top">
                       <div className='image-over-text'>
                         <Typography className='query-head' style={{color: "#fff", marginBottom: 6}}>{name}</Typography>
-                        <Typography className="normal-text" style={{color: "#fff"}}>{sub_name}</Typography>
+                        <Typography className="normal-text mb-30" style={{color: "#fff"}}>{sub_name}</Typography>
                       </div>
                     </div>
               </div>
               )}
             </div>
-            <CardContent style={{padding: "16px 25px"}}>
+            <CardContent style={{padding: "24px 32px"}}>
                   {/* {currentStep === 0 && <AccountSignUp handleNext={handleNext} />} */}
                   {/* {currentStep === 1 && <EmailCreateAccount handleNext={handleNext} />} */}
                   {currentStep === 0 && <ApplyGivecard sharedData={sharedData}  onBackButtonClick={onBackButtonClick} updateSharedData={updateSharedData} handleNext={handleNext}/>}

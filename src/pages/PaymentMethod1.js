@@ -167,7 +167,7 @@ const handleSubmit = async event => {
   
 return (
     <form onSubmit={handleSubmit}>
-      {errorMessage  !== ''  &&  <Alert severity="error">{errorMessage}</Alert>}
+      {errorMessage  !== ''  &&  <Alert severity="error" className='mt-10'>{errorMessage}</Alert>}
       <div className="custom-card-element">
         <CardNumberElement 
         onChange={(e)=> {handleInputChange(e, 'cardNo')}}

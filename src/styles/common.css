@@ -83,6 +83,9 @@
 .mb-10 {
     margin-bottom: 10px !important;
 }
+.mb-30  {
+    margin-bottom: 30px !important;
+}
 .mt-5 {
     margin-top: 5px !important;
 }
@@ -240,8 +243,8 @@
 }
 .back-btn {
     position: fixed !important;
-    left: 20px;
-    top: 13px;
+    left: 32px;
+    top: 32px;
     z-index: 2;
     /* background-color: #cccccc63 !important; */
 }
@@ -367,7 +370,7 @@
     flex-direction: column;
     align-items: start;
     justify-content: flex-end;
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
 }
 .input-checkbox .MuiCheckbox-root {
     padding-top: 0;
@@ -427,7 +430,6 @@
 }  
 .img-top {
     position: relative; 
-    padding-bottom: 5px;
     height: 260px;
     background-size: cover;
     border-top-left-radius:15px;

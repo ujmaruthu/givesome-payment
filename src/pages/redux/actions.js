@@ -114,3 +114,51 @@ export const createPaymentIntent = async (data) => {
       return error;
     }
 }
+
+export const retrievePaymentDetails = async (data) => {
+
+  const endpoint = `http://localhost:8080/api/payment/confirm`;
+  try {
+      const response = await axios.post(`${endpoint}`, data);
+    // const response = {
+    //     "message": "Payment Success",
+    //     "status": 200,
+    //     "data": {
+    //         "status": "requires_payment_method",
+    //         "paymentId": "pi_3OEy0EHiWAUtr3KA1D7DFYh7",
+    //         "amount": 200,
+    //         "createdTime": "2023-11-21T17:44:50Z",
+    //         "exclusiveContentUrl": "https://rotaryguelph.ca/",
+    //         "moreProjectUrl": "https://qa.givesome.org/rotaryclubguelph/"
+    //     }
+    // }
+
+      return response;
+
+    } catch (error) {
+      return error;
+    }
+}
+
+export const getDenominationsList = async (data) => {
+
+  const endpoint = `https://qa-api.givesome.gives/api/api/payment/amount/`+data.projectId;
+  try {
+      const response = await axios.post(`${endpoint}`, data);
+    //   const response = {
+    //    "data": {
+    //     "message": "Denomination Amount",
+    //     "status": 200,
+    //     "data": {
+    //         "denominationOne": 20,
+    //         "denominationTwo": 50,
+    //         "denominationThree": 100
+    //     }
+    //   }
+    // }
+      return response;
+
+    } catch (error) {
+      return error;
+    }
+}

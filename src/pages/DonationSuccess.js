@@ -11,14 +11,16 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
     window.parent.postMessage({ action: 'loadUrl', url: sharedData?.applyCardData?.moreProjectUrl ? sharedData?.applyCardData?.moreProjectUrl : sharedData?.paymentSuccessData?.moreProjectUrl || 'https://qa.givesome.org' }, "*");
   }
   const exclusiveContentRedrection = () => {
-    window.parent.postMessage({ action: 'loadUrl', url: sharedData?.applyCardData?.exclusiveContentUrl ? sharedData?.applyCardData?.exclusiveContentUrl : sharedData?.paymentSuccessData?.moreProjectUrl || 'https://qa.givesome.org' }, "*");
+    window.parent.postMessage({ action: 'loadUrl', url: sharedData?.applyCardData?.exclusiveContentUrl ? sharedData?.applyCardData?.exclusiveContentUrl : sharedData?.paymentSuccessData?.exclusiveContentUrl || 'https://qa.givesome.org' }, "*");
   }
   const divStyle = {
     backgroundImage: `url(${sharedData?.projectImage ? "https://qa.givesome.org/"+sharedData?.projectImage : ThankyouIcon})`,
     backgroundSize: 'cover',
     width: '340px',
     height: '340px',
-    borderRadius: 20
+    borderRadius: 20,
+    marginTop: 20,
+    marginBottom: 20
   };
 
   setTimeout(() => {
@@ -38,7 +40,7 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
       <div>
       <div>
         <Typography className='big-head mb-20 mt-30'>Thank you! Now, see the good.</Typography>
-        <Typography className="normal-text mb-40">Once the project is fully funded, we’ll send you <br /> video and blog updates.</Typography>
+        <Typography className="lg-normal-text mb-40">Once the project is fully funded, we’ll send you <br /> video and blog updates.</Typography>
       </div>
       {sharedData?.applyCardData?.selectedValue !== 'pin' && (
         <div style={{ textAlign: 'center' }}>
@@ -53,7 +55,7 @@ const DonationSuccess = ({ sharedData, updateSharedData }) => {
           {/* <img src={sharedData?.projectImage ? "https://qa.givesome.org/"+sharedData?.projectImage : ThankyouIcon} alt="Logo icon" /> */}
         </div>
 
-    </div><div className='btn-holder'>
+    </div><div className='btn-holder mb-10'>
         <Button className="normal-text default-btn"  style={{width: '50%'}} variant='contained' onClick={moreProjectRedrection}>
           More Projects
         </Button>
