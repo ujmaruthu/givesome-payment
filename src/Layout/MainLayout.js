@@ -32,7 +32,7 @@ const MainLayout = props => {
 
     return (
         
-    <ContentWrapper style={{height: '100vh'}}>
+    <ContentWrapper style={{height: '100%', width: 500}}>
         <Grid container>
             <Grid item xs={12} sm={12} xl={12} lg={12} md={12}>
                 <div className='content-wrapper'>
